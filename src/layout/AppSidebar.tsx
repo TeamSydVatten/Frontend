@@ -305,14 +305,14 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 className="dark:hidden"
-                src="https://www.allabolag.se/images/trademark/2147834.jpg"
+                src="src/components/ui/sydvatten_svart_transparent.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <img
                 className="hidden dark:block"
-                src="https://www.allabolag.se/images/trademark/2147832.jpg"
+                src="src/components/ui/sydvatten_vit_transparent.png"
                 alt="Logo"
                 width={150}
                 height={40}

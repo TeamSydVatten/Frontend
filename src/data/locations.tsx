@@ -1,22 +1,6 @@
 import type { Location } from "@/types/location";
 
 export const locationById = {
-  kavlingean: {
-    id: "kavlingean",
-    name: "Kävlingeån",
-    description: "Rinner genom mellersta Skåne.",
-    waterflow: 12.4,
-    waterlevel: 14,
-    series: [],
-  },
-  helgean: {
-    id: "helgean",
-    name: "Helgeån",
-    description: "Rinner mot Hanöbukten.",
-    waterflow: 31.8,
-    waterlevel: 14,
-    series: [],
-  },
   vomb: {
     id: "vomb",
     name: "Vombsjön",
@@ -42,5 +26,7 @@ export const locationById = {
     series: [],
   },
 } satisfies Record<string, Location>;
+
+
 
 export type LocationId = keyof typeof locationById
