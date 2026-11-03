@@ -16,10 +16,9 @@ export default function LatestFlowCard({ location }: { location: Location }) {
         <div className="mt-5 flex items-end justify-between">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Senaste uppmätta vattenflöde
             </span>
             <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
-              {location.waterflow} liter / sekund 
+              {location.waterflow} liter / sekund
             </h4>
           </div>
           <Badge color="success">
