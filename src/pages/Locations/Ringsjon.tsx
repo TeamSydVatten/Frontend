@@ -6,6 +6,7 @@ import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard
 import LineChartOne from '@/components/charts/line/LineChartOne'
 import ElectricityPerRecievedWater from '@/components/sydvattenKPI/ElectricityPerRecievedWater'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
+import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 
 const Ringsjon = () => {
   const thisLocation = locationById.ringsjon
@@ -14,6 +15,9 @@ const Ringsjon = () => {
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Ringsjön | Sydvatten" description="Översikt av ringsjöns mätningar" />
       <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Ringsjön</h4> 
+      <ComponentCard title ="Vilken data baseras detta på?">
+              <DescriptionOfData/>
+              </ComponentCard>
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
 
                     
