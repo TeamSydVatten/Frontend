@@ -8,7 +8,9 @@ import ElectricityPerRecievedWater from '@/components/sydvattenKPI/ElectricityPe
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 
 const Ringsjon = () => {
+  const thisLocation = locationById.ringsjon
   return (
+    
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Ringsjön | Sydvatten" description="Översikt av ringsjöns mätningar" />
       <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Ringsjön</h4> 
@@ -21,10 +23,10 @@ const Ringsjon = () => {
                     <ElectricityPerRecievedWater location={locationById.ringsjon}/>
             </div>
             <ComponentCard title="Elförbruking">
-          <LineChartOne />
+          <LineChartOne location={thisLocation} />
           </ComponentCard>
           <ComponentCard title="Vattenproduktion">
-          <LineChartOne />
+            <LineChartOne location={thisLocation} />
           </ComponentCard>
         </div>
     
