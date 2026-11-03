@@ -7,6 +7,7 @@ import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import CheckBoxKPI from '@/components/SydvattenKPI/CheckBoxKPI'
+import CompareLineChart from '@/components/SydvattenKPI/CompareLineChart'
 
 const Vomb = () => {
   const thisLocation = locationById.vomb
@@ -29,7 +30,7 @@ const Vomb = () => {
     
         <ComponentCard title="Välj vilken data som ska visas">
           <CheckBoxKPI></CheckBoxKPI>
-          <LineChartOne />
+          <CompareLineChart location={thisLocation}/>
         </ComponentCard>
 
     </div>
