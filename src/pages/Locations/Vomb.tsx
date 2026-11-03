@@ -6,7 +6,7 @@ import VattenNivaCard from "@/components/SydvattenKPI/VattenNivaCard";
 import ElectricityPerRecievedWater from "@/components/SydvattenKPI/ElectricityPerRecievedWater";
 import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
 import PageMeta from "@/components/TailAdminComponents/common/PageMeta";
-import WaterPeriodSummary from "@/components/SydvattenKPI/WaterPeriodSummary";
+import WaterPeriodExplorer from "@/components/SydvattenKPI/WaterPeriodExplorer";
 
 const Vomb = () => {
   const thisLocation = locationById.vomb;
@@ -25,15 +25,7 @@ const Vomb = () => {
         <LatestFlowCard location={thisLocation} />
         <ElectricityPerRecievedWater location={thisLocation} />
       </div>
-      <WaterPeriodSummary
-        period="30 september 2026"
-        previousPeriod="29 September 2026"
-        volumeM3={81715.5972}
-        previousVolumeM3={81183.6828}
-        peakFlowLs={1151.312}
-        peakTime="19–20"
-        validHours={24}
-      />
+      <WaterPeriodExplorer />
       <ComponentCard title="Elförbruking">
         <LineChartOne />
       </ComponentCard>
