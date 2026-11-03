@@ -30,26 +30,26 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <PageIcon></PageIcon>,
-    name: "asodk",
+    name: "Vatten",
     key: "locationOverview",
     subItems: [
-      { name: "Vattenflöden", key: "bolmen", path: "/bolmen" },
-      { name: "Vattenflöden", key: "vomb", path: "/vomb" },
-      { name: "Vattenflöden", key: "ringsjon", path: "/ringsjon"} ],
+      { name: "Bolmen", key: "bolmen", path: "/bolmen" },
+      { name: "Vombsjön", key: "vomb", path: "/vomb" },
+      { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" }],
   },
-  
+
   {
     icon: <IoLocation></IoLocation>,
-    name: "asodk",
+    name: "Kommuner",
     key: "kommuner",
     subItems: [
-      { name: "kommuner", key: "kommunoversikt", path: "/kommuner" },
-      { name: "kommuner", key: "malmo", path: "/malmo" },
-      { name: "kommuner", key: "lund", path: "/lund" }],
+      { name: "Kartöversikt", key: "kommunoversikt", path: "/kommuner" },
+      { name: "Malmö", key: "malmo", path: "/malmo" },
+      { name: "Lund", key: "lund", path: "/lund" }],
   },
   {
     icon: <IoLogoElectron/>,
-    name: "asodk",
+    name: "El",
     key: "elforbrukning",
     subItems: [
       { name: "Elöversikt", key: "elforbrukning", path: "/elOverview" }],
@@ -141,7 +141,7 @@ const AppSidebar: React.FC = () => {
   const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
     <ul className="flex flex-col gap-1">
       {items.map((nav, index) => (
-        <li key={nav.name}>
+        <li key={nav.key ?? `${menuType}-${index}`}>
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
@@ -234,7 +234,7 @@ const AppSidebar: React.FC = () => {
             >
               <ul className="ms-9 mt-2 space-y-1">
                 {nav.subItems.map((subItem) => (
-                  <li key={subItem.name}>
+                  <li key={subItem.key ?? subItem.path}>
                     <Link
                       to={subItem.path}
                       target={subItem.target}
