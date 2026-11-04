@@ -2,7 +2,7 @@ import { ArrowUpIcon } from "@/icons";
 import { IoWater } from "react-icons/io5";
 import Badge from "../ui/badge/Badge";
 import type { Location } from "@/types/location";
-import flowAPI from "@/Services/FlowAPIClient";
+import flowAPI from "@/Services/APIClient";
 import { meterWeight } from "@/config/meters";
 import { useState, useEffect } from "react";
 

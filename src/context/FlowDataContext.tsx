@@ -2,7 +2,7 @@ import {
   createContext, useCallback, useContext, useEffect, useMemo, useState,
   type ReactNode,
 } from "react";
-import flowAPI from "@/Services/FlowAPIClient";
+import flowAPI from "@/Services/APIClient";
 
 export function FlowDataProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
