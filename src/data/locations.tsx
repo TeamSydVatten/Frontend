@@ -1,12 +1,13 @@
 import type { Location } from "@/types/location";
 
 export const locationById = {
-  lund: {
-  id: "lund",
+  vomb: {
+  id: "vomb",
   name: "Vombsjön",
   description: "Stor sjö i Lunds kommun.",
   waterflow: 1151.3,
   waterlevel: 18.65,
+  meterId: "lund",
   series: [
     { date: "2026-10-01", value: 12.1 },
     { date: "2026-10-02", value: 12.4 },
@@ -38,7 +39,7 @@ export const locationById = {
       { date: "2026-10-07", value: 0.2 },
       { date: "2026-10-08", value: 0.0 },
       { date: "2026-10-09", value: 0.2 },
-      { date: "2026-10-010", value: 0.9 },
+      { date: "2026-10-01", value: 0.9 },
     ],
     water: [
       { date: "2026-10-01", value: 531.8 },
@@ -53,6 +54,7 @@ export const locationById = {
       { date: "2026-10-10", value: 430.9 },
     ],
   },
+  
   },
   ringsjon: {
     id: "ringsjon",
@@ -60,6 +62,7 @@ export const locationById = {
     description: "Ser ut som en ring typ.",
     waterflow: 12.8,
     waterlevel: 54.3,
+    meterId: "eslov",
     series: [
       { date: "2026-10-01", value: 11.8 },
       { date: "2026-10-02", value: 12.0 },
@@ -89,6 +92,7 @@ export const locationById = {
     description: "Bolmar rök.",
     waterflow: 7.8,
     waterlevel: 142,
+    meterId: "bolmen",
     series: [
       { date: "2026-10-01", value: 7.5 },
       { date: "2026-10-02", value: 7.9 },

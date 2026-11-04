@@ -1,3 +1,5 @@
+import type { LakeLevelResponse } from "@/types/APItypes";
+
 const BASE_URL = "http://localhost:8000";
 
 async function get<T>(path: string): Promise<T> {
@@ -23,9 +25,9 @@ const fetchAPI = {
     return get(`/flow/meter/${encodeURIComponent(meter_id)}`)
   },
 
-  getLakeLevel(name : string) {
-    return get(`/level/lake/${encodeURIComponent(name)}`)
-  },
+  getLakeLevel(name: string) {
+  return get<LakeLevelResponse>(`/level/lake/${encodeURIComponent(name)}`);
+},
 
   getLakePrecipitation(name : string){
     return get(`/precipitation/lake/${encodeURIComponent(name)}`)

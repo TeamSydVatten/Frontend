@@ -8,6 +8,9 @@ export interface MeterEntry {
   valid_to: string | null; // null = fortfarande giltig
 }
 
+const normalize = (s: string) =>
+  s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+
 export const METER_MASTER: MeterEntry[] = [
   { meter_id: "DRDLN02-FT1050/I.PV_Out#Value", location: "BJUV", chamber: "DRTT06", comment: "Ekeby", sign: 1, valid_from: "2022-10-12", valid_to: null },
   { meter_id: "DRDLN03-FT1162/I.PV_Out#Value", location: "BJUV", chamber: "DRTT06", comment: "Ljungsgård 1 (Bjuv)", sign: 1, valid_from: "2022-10-12", valid_to: null },
@@ -116,12 +119,11 @@ export const METER_MASTER: MeterEntry[] = [
 
 // Uppslag: `${meter_id}|${LOCATION}` -> post
 const INDEX = new Map<string, MeterEntry>(
-  METER_MASTER.map((m) => [`${m.meter_id}|${m.location}`, m])
+  METER_MASTER.map((m) => [`${m.meter_id}|${normalize(m.location)}`, m])
 );
 
-/** Mätarens post för en plats*/
 export function getMeterEntry(meterId: string, locationId: string): MeterEntry | undefined {
-  return INDEX.get(`${meterId}|${locationId.toUpperCase()}`);
+  return INDEX.get(`${meterId}|${normalize(locationId)}`);
 }
 
  //Vikt för en mätarrad: +1, -1 eller 0 (mätaren ska inte räknas).
@@ -134,3 +136,4 @@ export function meterWeight(meterId: string, locationId: string, timestamp?: str
   }
   return m.sign;
 }
+

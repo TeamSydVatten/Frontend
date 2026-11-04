@@ -4,6 +4,7 @@ interface BaseLocation {
   description: string;
   series: { date: string; value: number }[];
   lossSeries: { date: string; value: number }[];
+  meterId: string;
 }
 
 export type Point = { date: string; value: number };

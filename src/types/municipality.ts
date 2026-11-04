@@ -1,5 +1,3 @@
-import type { list } from "postcss";
-
 export interface Municipality {
   id: string;
   regionCode: string;          

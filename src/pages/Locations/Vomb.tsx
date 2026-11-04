@@ -9,7 +9,7 @@ import CompareLineChart from '@/components/SydvattenKPI/CompareLineChart'
 import WaterPeriodExplorer from '@/components/SydvattenKPI/WaterPeriodExplorer'
 
 const Vomb = () => {
-  const thisLocation = locationById.lund;
+  const thisLocation = locationById.vomb;
   return (
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Vombsjön Översikt | Sydvatten" description="Översikt av Vombsjöns mätningar" />
