@@ -1,16 +1,15 @@
 import { locationById } from '@/data/locations'
-import LineChartOne from '@/components/charts/line/LineChartOne'
 import LatestFlowCard from '@/components/SydvattenKPI/LatestFlowCard'
 import VattenNivaCard from '@/components/SydvattenKPI/VattenNivaCard'
 import ElectricityPerRecievedWater from '@/components/SydvattenKPI/ElectricityPerRecievedWater'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
-import CheckBoxKPI from '@/components/SydvattenKPI/CheckBoxKPI'
 import CompareLineChart from '@/components/SydvattenKPI/CompareLineChart'
+import WaterPeriodExplorer from '@/components/SydvattenKPI/WaterPeriodExplorer'
 
 const Vomb = () => {
-  const thisLocation = locationById.vomb;
+  const thisLocation = locationById.lund;
   return (
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Vombsjön Översikt | Sydvatten" description="Översikt av Vombsjöns mätningar" />
@@ -26,10 +25,9 @@ const Vomb = () => {
         <DescriptionOfData/>
         </ComponentCard>
 
-    
+        <WaterPeriodExplorer></WaterPeriodExplorer>
     
         <ComponentCard title="Välj vilken data som ska visas">
-          <CheckBoxKPI></CheckBoxKPI>
           <CompareLineChart location={thisLocation}/>
         </ComponentCard>
 

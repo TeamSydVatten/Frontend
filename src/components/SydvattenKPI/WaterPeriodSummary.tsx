@@ -1,3 +1,5 @@
+import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon, BoxIconLine, MdOutlineWater } from "@/icons";
+
 type WaterPeriodSummaryProps = {
   period: string;
   previousPeriod: string;
@@ -7,6 +9,8 @@ type WaterPeriodSummaryProps = {
   peakTime: string;
   validHours: number;
 };
+
+
 
 const formatNumber = (value: number, decimals = 0) =>
   new Intl.NumberFormat("sv-SE", {
@@ -28,6 +32,21 @@ const WaterPeriodSummary = ({
       ? ((volumeM3 - previousVolumeM3) / previousVolumeM3) * 100
       : null;
 
+    let ArrowComponent = null;
+    let iconColor = "text-gray-400";
+
+     if (changePercent !== null) {
+      if (changePercent > 0) {
+      ArrowComponent = ArrowUpIcon;
+      iconColor = "text-green-600";
+        } else if (changePercent < 0) {
+      ArrowComponent = ArrowDownIcon;
+      iconColor = "text-red-600";
+        } else {
+      ArrowComponent = ArrowRightIcon;
+      iconColor = "text-gray-400";
+    }
+  }
   const changeText =
     changePercent === null
       ? "Kunde inte beräknas"
@@ -41,10 +60,15 @@ const WaterPeriodSummary = ({
     },
     {
       label: "Förändringar mot föregående dygn",
-      value: changeText,
+      value: (
+        <span className="inline-flex items-center gap-1">
+          {changeText}
+          {ArrowComponent && <ArrowComponent className={`h-5 w-5 ${iconColor}`} />}
+        </span>
+      ),
       description: `Jämfört med ${previousPeriod}`,
     },
-    {
+    {  
       label: "Högsta flöde/H",
       value: `${formatNumber(peakFlowLs, 1)} L/s`,
       description: `Kl: ${peakTime}`,
@@ -61,7 +85,7 @@ const WaterPeriodSummary = ({
 
   return (
     <section className="rounded-2xl border border-gray-200 bg-white p-5 md:p-6">
-      <h2 className="text-lg font-semibold text-gray-800">
+      <h2 className="text-lg font-semibold text-gray-800" dark:text-white>
         Vombverket · dygnssammanfattning
       </h2>
 

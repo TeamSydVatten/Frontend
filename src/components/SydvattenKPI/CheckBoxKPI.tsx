@@ -1,35 +1,30 @@
-import React from 'react'
-import { useState } from "react";
-import Checkbox from '../form/input/Checkbox'
+import Checkbox from "../form/input/Checkbox";
 
-const CheckBoxKPI = () => {
-    const [electric_checked, electric_setChecked] = useState(false);
-    const [nederbord_checked, nederbord_setChecked] = useState(false);
-    const [water_checked, water_setChecked] = useState(false);
+export type KpiKey = "electric" | "precipitation" | "water";
+
+export const KPI_OPTIONS: { key: KpiKey; label: string; color: string }[] = [
+  { key: "electric", label: "Elförbrukning", color: "#465FFF" },
+  { key: "precipitation", label: "Nederbörd", color: "#9CB9FF" },
+  { key: "water", label: "Vattenflöde", color: "#12B76A" },
+];
+
+type Props = {
+  selected: Record<KpiKey, boolean>;
+  onToggle: (key: KpiKey, checked: boolean) => void;
+};
+
+export default function CheckBoxKPI({ selected, onToggle }: Props) {
   return (
-     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+      {KPI_OPTIONS.map(({ key, label }) => (
         <Checkbox
-      id="godkann"
-      label="Elförbrukning"
-      checked={electric_checked}
-      onChange={electric_setChecked}
-    />
-
-    <Checkbox
-      id="godkann"
-      label="Nederbörd"
-      checked={nederbord_checked}
-      onChange={nederbord_setChecked}
-    />
-
-    <Checkbox
-      id="godkann"
-      label="Vattenflöde"
-      checked={water_checked}
-      onChange={water_setChecked}
-    />
-        </div>
-  )
+          key={key}
+          id={`kpi-${key}`}          // unikt id per checkbox!
+          label={label}
+          checked={selected[key]}
+          onChange={(checked) => onToggle(key, checked)}
+        />
+      ))}
+    </div>
+  );
 }
-
-export default CheckBoxKPI

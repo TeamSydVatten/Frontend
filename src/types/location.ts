@@ -6,9 +6,16 @@ interface BaseLocation {
   lossSeries: { date: string; value: number }[];
 }
 
+export type Point = { date: string; value: number };
+
 export interface Location extends BaseLocation {
   waterflow: number;
   waterlevel: number;
+  kpis: {
+    electric: Point[];
+    precipitation: Point[];
+    water: Point[];
+  };
 }
 
 export interface Municipality extends BaseLocation {

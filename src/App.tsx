@@ -23,6 +23,9 @@ import Kommuner from "./pages/Kommuner/Kommuner";
 import Malmo from "./pages/Kommuner/Malmo";
 import Lund from "./pages/Kommuner/Lund";
 import ElOverview from "./pages/Electricity/ElOverview";
+import flowAPI from "./Services/FlowAPIClient";
+import { useEffect } from "react";
+
 
 export default function App() {
   return (
