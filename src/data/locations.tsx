@@ -116,6 +116,36 @@ export const locationById = {
     ],
   },
   },
+  vombverket: {
+    id: "vombverket",
+    name: "Vombverket",
+    description: "Vattenverk vid Vombsjön.",
+    waterflow: 0,
+    waterlevel: 0,
+    meterId: "vombverket",
+    series: [],
+    lossSeries: [],
+    kpis: {
+      electric: [],
+      precipitation: [],
+      water: [],
+    },
+  },
+  ringsjoverket: {
+    id: "ringsjoverket",
+    name: "Ringsjöverket",
+    description: "Vattenverk vid Ringsjön.",
+    waterflow: 0,
+    waterlevel: 0,
+    meterId: "ringsjoverket",
+    series: [],
+    lossSeries: [],
+    kpis: {
+      electric: [],
+      precipitation: [],
+      water: [],
+    },
+  },
 } satisfies Record<string, Location>;
 
 export type LocationId = keyof typeof locationById;
