@@ -19,6 +19,8 @@ import UserProfiles from "./pages/TailAdminPages/UserProfiles";
 import Bolmen from "./pages/Locations/Bolmen";
 import Vomb from "./pages/Locations/Vomb";
 import Ringsjon from "./pages/Locations/Ringsjon";
+import Vombverket from "./pages/Locations/Vombverket";
+import Ringsjoverket from "./pages/Locations/Ringsjoverket";
 import Kommuner from "./pages/Kommuner/Kommuner";
 import Malmo from "./pages/Kommuner/Malmo";
 import Lund from "./pages/Kommuner/Lund";
@@ -41,6 +43,8 @@ export default function App() {
             <Route path="/bolmen" element={<Bolmen/>} />
             <Route path="/vomb" element={<Vomb/>} />
             <Route path="/ringsjon" element={<Ringsjon/>} />
+            <Route path="/vombverket" element={<Vombverket/>} />
+            <Route path="/ringsjoverket" element={<Ringsjoverket/>} />
             <Route path="/kommuner" element={<Kommuner/>} />
             <Route path="/malmo" element={<Malmo/>}/>
             <Route path="/lund" element={<Lund/>}/>
