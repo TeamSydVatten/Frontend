@@ -97,9 +97,9 @@ export const electricityDataById = {
       "22:00:00": 585.48,
       "23:00:00": 582.24,}
   },
-  teckomatorptPump: {
-    id: "teckomatorptPump",
-    name: "Teckomatorpt pumpstation",
+  teckomatorpPump: {
+    id: "teckomatorpPump",
+    name: "Teckomatorp pumpstation",
     description: "Pumpstation för vattenhantering.",
     averageConsumption: 82.87,
     lasthoursOfConsumption: {

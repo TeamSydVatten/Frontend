@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ArrowDownIcon, MdOutlineWater } from "@/icons";
-import Badge from "../ui/badge/Badge";
 import type { Location } from "@/types/location";
 import fetchAPI from "@/Services/APIClient";
 import MetricCard from "./MetricCard";
