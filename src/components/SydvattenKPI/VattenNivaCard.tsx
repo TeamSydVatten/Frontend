@@ -1,44 +1,55 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { ArrowDownIcon, MdOutlineWater } from "@/icons";
 import Badge from "../ui/badge/Badge";
 import type { Location } from "@/types/location";
-import fetchAPI from '@/Services/APIClient';
+import fetchAPI from "@/Services/APIClient";
+import MetricCard from "./MetricCard";
 
 export default function VattenNivaCard({ location }: { location: Location }) {
-const [waterLevel, setWaterLevel] = useState<number | null>(null);
-const [latestDate, setDate] =useState<string | null>(null);
+  const [waterLevel, setWaterLevel] = useState<number | null>(null);
+  const [latestDate, setDate] = useState<string | null>(null);
+  const [history, setHistory] = useState<number[]>([]);
 
-useEffect(() => {
-  const load = async () => {
-    try {
-      const response = await fetchAPI.getLakeLevel(location.id);
-      setWaterLevel(response.data[0]?.water_level ?? null);
-      setDate(response.data[0]?.date ?? null)
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  load();
-}, []);
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const response = await fetchAPI.getLakeLevel(location.id);
+
+        const sorted = [...response.data]
+          .filter(
+            (row) =>
+              row.water_level != null &&
+              Number.isFinite(Number(row.water_level)),
+          )
+          .sort((a, b) => a.date.localeCompare(b.date));
+
+        const latest = sorted.at(-1);
+
+        setWaterLevel(latest ? Number(latest.water_level) : null);
+
+        setDate(latest?.date ?? null);
+
+        setHistory(sorted.map((row) => Number(row.water_level)));
+
+        console.log("Aktuell sjö:", location.id);
+        console.log("Antal mätningar:", sorted.length);
+        console.log("Senaste mätning:", latest);
+      } catch (err) {
+        console.error("Fel vid hämtning:", err);
+      }
+    };
+
+    load();
+  }, [location.id]);
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 md:p-6 dark:border-gray-800 dark:bg-white/3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
-          <MdOutlineWater className="size-6 text-gray-800 dark:text-white/90" />
-        </div>
-        <div className="mt-5 flex items-end justify-between">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {/*{t("orders")}*/}
-              Vattennivå : {latestDate}
-              
-            </span>
-            <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
-              {waterLevel} meter över havet
-            </h4>
-          </div>
-              
-        </div>
-      </div>
-  )
+    <MetricCard
+      title="Vattennivå"
+      value={waterLevel}
+      unit="m ö.h."
+      date={latestDate}
+      history={history}
+      icon={<MdOutlineWater className="size-6" />}
+    />
+  );
 }

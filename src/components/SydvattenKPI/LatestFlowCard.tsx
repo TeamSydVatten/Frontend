@@ -3,66 +3,116 @@ import type { Location } from "@/types/location";
 import flowAPI from "@/Services/APIClient";
 import { meterWeight } from "@/config/meters";
 import { useState, useEffect } from "react";
+import MetricCard from "./MetricCard";
+
+interface FlowRow {
+  meter_id: string;
+  timestamp: string;
+  water_flow: number;
+}
 
 export default function LatestFlowCard({ location }: { location: Location }) {
   const [flow, setFlow] = useState<number | null>(null);
   const [latestDate, setDate] = useState<Date | null>(null);
+  const [history, setHistory] = useState<number[]>([]);
+  const [change, setChange] = useState<number | undefined>(undefined);
+  console.log("LatestFlowCard renderas", {
+    location,
+    flow,
+    latestDate,
+    history,
+    change,
+  });
   useEffect(() => {
     const load = async () => {
       try {
-        const json = await flowAPI.getData();
-          
+        const json = (await flowAPI.getData()) as { data: FlowRow[] };
+
         const rows = json.data.filter(
-          (row) => meterWeight(row.meter_id, location.meterId, row.timestamp) !== 0
+          (row) =>
+            meterWeight(row.meter_id, location.meterId, row.timestamp) !== 0,
         );
 
-        if (rows.length === 0) {
-        setFlow(null);
-        setDate(null);
-        return;
-}
+        // Summera vattenflödet per tidpunkt
+        const grouped = new Map<number, number>();
 
-        const latestTime = Math.max(
-          ...rows.map((r) => new Date(r.timestamp).getTime())
-        );
-
-        const total = rows
-          .filter((r) => new Date(r.timestamp).getTime() === latestTime)
-          .reduce(
-            (sum, r) =>
-              sum + meterWeight(r.meter_id, location.meterId, r.timestamp) * r.water_flow,
-            0
+        rows.forEach((row) => {
+          const timestamp = new Date(row.timestamp).getTime();
+          const weight = meterWeight(
+            row.meter_id,
+            location.meterId,
+            row.timestamp,
           );
+          const value = Number(row.water_flow);
 
-        setFlow(total);
-        setDate(new Date(latestTime));
+          if (
+            !Number.isFinite(timestamp) ||
+            !Number.isFinite(value) ||
+            !Number.isFinite(weight) ||
+            row.water_flow == null
+          )
+            return;
+
+          grouped.set(
+            timestamp,
+            (grouped.get(timestamp) ?? 0) + weight * value,
+          );
+        });
+
+        // Sortera från äldsta till senaste
+        const sorted = [...grouped.entries()].sort((a, b) => a[0] - b[0]);
+
+        if (sorted.length === 0) {
+          setFlow(null);
+          setDate(null);
+          setHistory([]);
+          setChange(undefined);
+          return;
+        }
+
+        const latest = sorted.at(-1)!;
+        const previous = sorted.at(-2);
+
+        setFlow(latest[1]);
+        setDate(new Date(latest[0]));
+
+        setHistory(sorted.map((row) => row[1]));
+
+        if (previous && previous[1] !== 0) {
+          const percentage =
+            ((latest[1] - previous[1]) / Math.abs(previous[1])) * 100;
+
+          setChange(percentage);
+        } else {
+          setChange(undefined);
+        }
       } catch (err) {
         console.error(err);
+        setFlow(null);
+        setDate(null);
+        setHistory([]);
+        setChange(undefined);
       }
     };
+
     load();
-    
-
-  }, [location.meterId]); 
+  }, [location.meterId]);
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 md:p-6 dark:border-gray-800 dark:bg-white/3">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800">
-          <IoWater className="size-6 text-gray-800 dark:text-white/90" />
-        </div>
-        <div className="mt-5 flex items-end justify-between">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {/*{t("orders")}*/}
-              Senast uppmätta flöde : {latestDate
-              ? latestDate.toLocaleString("sv-SE", { dateStyle: "short", timeStyle: "short" })
-              : ""}
-            </span>
-            <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">
-              {flow !== null ? flow.toFixed(1) : "Ingen data"} liter / sekund
-            </h4>
-          </div>
-        </div>
-
-    </div>
+    <MetricCard
+      title="Vattenflöde"
+      value={flow}
+      unit="liter/sekund"
+      date={
+        latestDate
+          ? latestDate.toLocaleString("sv-SE", {
+              dateStyle: "short",
+              timeStyle: "short",
+            })
+          : null
+      }
+      history={history}
+      change={change}
+      icon={<IoWater className="size-6" />}
+    />
   );
 }
