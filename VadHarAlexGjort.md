@@ -1,183 +1,268 @@
-# Teknisk överlämning – Sydvatten KPI-komponenter
+# Teknisk överlämning – Sydvatten Dashboard
 
 ## 1. Översikt
 
-Dashboardens tre KPI-komponenter har uppdaterats för att använda en gemensam, återanvändbar komponent: **`MetricCard.tsx`**.
+Vi har vidareutvecklat Sydvattens dashboard med dynamiska KPI-komponenter för vattennivåer, vattenflöden och elförbrukning. Vi har även byggt en ny energiöversikt med historiska diagram, periodjämförelser och datadrivna insikter.
 
-Tidigare hade varje KPI en egen JSX-struktur för att visa information. Det innebar duplicerad kod och gjorde det svårare att hålla designen konsekvent.
+Arbetet bygger på React, TypeScript, Tailwind CSS och TailAdmin. Mätvärden hämtas från vår FastAPI-backend via `APIClient.ts`.
 
-Den nya lösningen separerar **datahantering från presentation**.
+Den viktigaste förändringen är att vi har **separerat datahantering från presentation**. Varje KPI-komponent ansvarar för att hämta och bearbeta sin data, medan gemensamma komponenter används för att presentera informationen.
 
-- `MetricCard.tsx` ansvarar för design, värden, procentuell förändring, statusindikatorer och historiska diagram.
-- `VattenNivaCard.tsx` ansvarar för att hämta och bearbeta vattennivåer.
-- `LatestFlowCard.tsx` ansvarar för att hämta och beräkna vattenflöden.
-- `ElectricityPerRecievedWater.tsx` ansvarar för att hämta och bearbeta elförbrukning.
+## 2. Filstruktur
 
-Komponenterna använder fortfarande befintliga API-anrop från `Services/APIClient.ts`.
+Vi har huvudsakligen arbetat i följande delar av projektet:
 
-## 2. MetricCard – gemensam presentationskomponent
+```text
+src/
+├── components/
+│   └── SydvattenKPI/
+│       ├── ElectricityLineChart.tsx
+│       ├── ElectricityPerRecievedWater.tsx
+│       ├── LatestFlowCard.tsx
+│       ├── MetricCard.tsx
+│       └── VattenNivaCard.tsx
+│
+└── pages/
+    ├── Electricity/
+    │   └── ElOverview.tsx
+    └── Home.tsx
+```
 
-`MetricCard` är en generell komponent som kan användas för olika nyckeltal (KPI:er).
+Vi har även återanvänt befintliga filer som `ElectricityConsum.tsx`, `electricityData.ts`, `APIClient.ts` och `meters.ts`.
 
-Den innehåller:
+## 3. Nya och uppdaterade komponenter
 
-- Titel och valfri ikon.
-- Senaste uppmätta värde och enhet.
-- Datum för senaste mätningen.
-- Dynamisk procentuell förändring med uppåt- eller nedåtpil.
-- Färgkodad Badge beroende på förändringens riktning och betydelse.
-- Ett kompakt stapeldiagram med de 14 senaste mätvärdena.
+### MetricCard.tsx
 
-### Props
+En gemensam presentationskomponent som används för flera typer av KPI:er.
 
-| Prop            | Typ              | Beskrivning                                 |
-| --------------- | ---------------- | ------------------------------------------- |
-| `title`         | `string`         | Namn på nyckeltalet                         |
-| `value`         | `number \| null` | Senaste uppmätta värde                      |
-| `unit`          | `string`         | Måttenhet, exempelvis kWh                   |
-| `date`          | `string \| null` | Senaste mätdatum                            |
-| `icon`          | `ReactNode`      | Ikon som visas i kortet                     |
-| `change`        | `number`         | Procentuell förändring, valfri              |
-| `history`       | `number[]`       | Historiska mätvärden                        |
-| `lowerIsBetter` | `boolean`        | Anger om en minskning ska visas som positiv |
+Den visar:
 
-### Dynamisk Badge
+- Titel, ikon och senaste mätvärde.
+- Måttenhet och datum för senaste mätningen.
+- Procentuell förändring med färgkodad pil.
+- Ett minidiagram med de 14 senaste mätvärdena.
 
-Förändringsindikatorn fungerar automatiskt utifrån värdet som skickas genom `change`.
+Komponenten tar emot färdigbearbetad data och gör inga egna API-anrop.
 
-Som standard innebär ökande värden en grön Badge och minskande värden en röd Badge.
+**Exempel på användning:**
 
-För exempelvis elförbrukning används `lowerIsBetter={true}`. Då blir en minskning grön och en ökning röd.
+```tsx
+<MetricCard
+  title="Elförbrukning"
+  value={electricity}
+  unit="kWh"
+  date={latestDate}
+  history={history}
+  change={change}
+  lowerIsBetter={true}
+  icon={<MdElectricBolt className="size-6" />}
+/>
+```
 
-Pilens riktning visar alltid den faktiska förändringen, medan färgen representerar den valda tolkningen.
+`lowerIsBetter` styr hur förändringen färgkodas. För elförbrukning innebär en minskning grön nedåtpil och en ökning röd uppåtpil.
 
-Om `change` saknas visas ingen Badge. Vid oförändrat värde visas en neutral indikator.
-
-### Historiskt diagram
-
-`MetricCard` tar emot en array med historiska mätvärden via `history`.
-
-Komponenten:
-
-1. Filtrerar bort värden som inte är ändliga tal.
-2. Väljer de 14 sista mätvärdena.
-3. Identifierar periodens lägsta och högsta värde.
-4. Beräknar stapelhöjder relativt intervallet.
-5. Markerar den senaste stapeln med en mörkare färg.
-
-**Viktigt:** Historiken måste skickas i kronologisk ordning, från äldst till senast. Diagrammet visar de 14 senaste _mätningarna_, inte nödvändigtvis 14 dagar.
-
-Grafen använder en relativ skala för att tydliggöra små variationer. Den visar därför inte värden från noll.
-
-Diagrammet visas endast när minst två giltiga mätvärden finns.
-
-## 3. De tre KPI-komponenterna
+`history` ska vara sorterad från äldsta till senaste mätningen. Om färre än två giltiga värden finns visas inget minidiagram.
 
 ### VattenNivaCard.tsx
 
-**Datakälla:** `fetchAPI.getLakeLevel(location.id)`
+Hämtar vattennivåer för aktuell sjö genom:
 
-Komponenten hämtar vattennivådata för den aktuella sjön.
+```tsx
+fetchAPI.getLakeLevel(location.id)
+```
 
-Efter API-anropet filtreras ogiltiga vattennivåer bort och mätningarna sorteras i datumordning.
+Komponenten filtrerar ogiltiga värden, sorterar mätningarna efter datum och skickar senaste vattennivån samt historiken till `MetricCard`.
 
-Därefter används:
+**Användning:**
 
-- `waterLevel` för senaste vattennivån.
-- `latestDate` för senaste mätdatumet.
-- `history` för samtliga giltiga historiska vattennivåer.
-
-Dessa skickas vidare till `MetricCard`.
-
-Komponenten visar för närvarande ingen procentuell förändring eftersom `change` inte skickas in.
+```tsx
+<VattenNivaCard location={location} />
+```
 
 ### LatestFlowCard.tsx
 
-**Datakälla:** `flowAPI.getData()`
+Hämtar vattenflödesdata genom:
 
-Denna komponent kräver mer bearbetning eftersom vattenflödet kan beräknas utifrån flera mätare.
+```tsx
+flowAPI.getData()
+```
 
-Den befintliga funktionen `meterWeight()` har behållits.
+Den använder `meterWeight()` från `config/meters` för att identifiera och vikta relevanta mätare.
 
-Arbetsflödet är:
+Mätningar med samma tidsstämpel grupperas och summeras. Därefter beräknas senaste flödet, historiken och procentuell förändring.
 
-1. Hämta vattenflödesdata.
-2. Filtrera fram relevanta mätare med `meterWeight()`.
-3. Gruppera mätningar med samma tidsstämpel i en JavaScript `Map`.
-4. Summera viktade flöden för respektive tidpunkt.
-5. Sortera tidpunkterna kronologiskt.
-6. Hämta senaste och föregående summerade flöde.
-7. Beräkna procentuell förändring.
-8. Skicka värde, datum, historik och förändring till `MetricCard`.
+Resultatet skickas till `MetricCard`.
 
-Procentuell förändring beräknas enligt:
+**Användning:**
 
-**((senaste − föregående) / |föregående|) × 100**
+```tsx
+<LatestFlowCard location={location} />
+```
 
-Om det saknas ett föregående värde, eller om föregående värde är noll, visas ingen procentuell förändring.
-
-Observera att grupperingen använder exakta tidsstämplar. Om mätarna rapporterar vid olika tidpunkter kan jämförelserna bli missvisande. En framtida förbättring är att aggregera värden per gemensamt tidsintervall.
+Observera att komponenten grupperar efter exakta tidsstämplar, vilket förutsätter att relevanta mätare rapporterar vid jämförbara tidpunkter.
 
 ### ElectricityPerRecievedWater.tsx
 
-**Datakälla:** `fetchAPI.getPowerData()`
-
-Elkomponenten har ändrats från ett statiskt kort till ett kort som hämtar eldata via API:et.
-
-API-objekten använder följande fält:
-
-- `location` – anläggningens namn.
-- `timestamp` – mättidpunkt.
-- `usage` – uppmätt värde.
-
-Eftersom anläggningsnamnen i API:et inte är identiska med sidornas `location.id` används en konfiguration:
-
-| location.id | API-namn      |
-| ----------- | ------------- |
-| `vomb`      | Vombverket    |
-| `ringsjon`  | Ringsjöverket |
-
-Mätningarna filtreras efter anläggning, sorteras kronologiskt och används för senaste värde, historik och procentuell förändring.
-
-Komponenten skickar även `lowerIsBetter={true}` till `MetricCard`, eftersom minskad elförbrukning i det här sammanhanget ska presenteras med grön Badge.
-
-**Observera:** API-fältet `usage` presenteras för närvarande i kWh, men enheten och mätperioden behöver verifieras mot datakällan. Bolmen har ännu ingen definierad mappning för elförbrukning.
-
-## 4. Hur komponenterna används
-
-På en platssida, exempelvis `Vomb.tsx`, kan de tre komponenterna renderas tillsammans:
+Hämtar eldata för den aktuella anläggningen genom:
 
 ```tsx
-<div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-  <VattenNivaCard location={location} />
-  <LatestFlowCard location={location} />
-  <ElectricityPerRecievedWater location={location} />
-</div>
+fetchAPI.getPowerData()
 ```
 
-Samtliga komponenter förväntar sig ett `location`-objekt som följer projektets `Location`-interface.
+API-svaret innehåller fälten `location`, `timestamp` och `usage`.
 
-Objektet innehåller bland annat `id`, som används för att identifiera platsen. `LatestFlowCard` använder även `meterId` för att identifiera relevanta vattenflödesmätare.
+Eftersom frontend använder andra plats-ID:n än API:et används en mappning, exempelvis:
 
-**För att skapa ett nytt KPI-kort:**
+```tsx
+const powerLocations = {
+  vomb: "Vombverket",
+  ringsjon: "Ringsjöverket",
+};
+```
 
-1. Skapa en ny komponent som ansvarar för API-hämtningen.
-2. Definiera lämpliga TypeScript-typer för API-svaret.
-3. Använd `useState` för senaste värde, datum, historik och eventuell förändring.
-4. Använd `useEffect` för datahämtningen.
-5. Filtrera och sortera mätningarna innan de skickas vidare.
-6. Returnera `MetricCard` med relevanta props.
+Komponenten filtrerar mätningarna efter anläggning, sorterar dem kronologiskt och beräknar förändringen mellan de två senaste mätningarna.
 
-Den nya KPI-komponenten behöver inte implementera en egen kortdesign eller ett separat stapeldiagram.
+Datan presenteras genom `MetricCard` med `lowerIsBetter={true}`.
 
-## 5. Dataflöde och ansvarsfördelning
+**Användning:**
 
-**FastAPI / PostgreSQL → APIClient → KPI-komponent → MetricCard**
+```tsx
+<ElectricityPerRecievedWater location={location} />
+```
 
-`APIClient.ts` innehåller funktionerna som kommunicerar med backend.
+### ElectricityLineChart.tsx
 
-KPI-komponenterna sköter API-anrop, filtrering, sortering, beräkningar och state.
+Ett återanvändbart linjediagram byggt med TailAdmins diagramteknik, `react-apexcharts` och ApexCharts.
 
-`MetricCard.tsx` presenterar den färdigbearbetade informationen.
+Diagrammet visar historisk elförbrukning med datum på X-axeln och uppmätt förbrukning på Y-axeln.
 
-Det betyder exempelvis att en ändring av diagrammets utseende kan göras på ett enda ställe i `MetricCard`, utan att ändra API-logiken i varje KPI-komponent.
+Vi har anpassat färgerna till ett energitema:
+
+- Amber `#F59E0B` för huvudlinjen.
+- Gul `#FBBF24` för mätpunkter.
+- Mörk amber `#D97706` för konturer.
+
+Diagrammet tar emot data i följande format:
+
+```tsx
+const chartData = [
+  { date: "2026-09-01", usage: 420 },
+  { date: "2026-09-02", usage: 450 },
+  { date: "2026-09-03", usage: null },
+];
+```
+
+**Användning:**
+
+```tsx
+<ElectricityLineChart data={chartData} />
+```
+
+`null` används för dagar utan mätningar. Diagramkomponenten hämtar inte data själv.
+
+## 4. ElOverview.tsx – ny energiöversikt
+
+`ElOverview.tsx` ligger under `pages/Electricity/` och fungerar som den övergripande sidan för Sydvattens energianvändning.
+
+Tidigare bestod sidan huvudsakligen av sju statiskt renderade anläggningskort. Vi har byggt ut den med följande delar:
+
+| Sektion              | Funktion                                                   |
+| -------------------- | ---------------------------------------------------------- |
+| Sammanfattningskort  | Antal anläggningar, registrerad förbrukning och förändring |
+| Periodväljare        | Växla mellan 7 och 30 dagar                                |
+| Förbrukning över tid | Linjediagram med valbar anläggning                         |
+| Jämför anläggningar  | Horisontella staplar för registrerad förbrukning           |
+| Energiinsikter       | Automatisk klassificering av förändringar                  |
+| Anläggningskort      | Information om respektive vattenverk och pumpstation       |
+
+### Datahantering
+
+Sidan hämtar data genom `getPowerData()` och lagrar den med `useState`.
+
+Därefter används bland annat:
+
+- `useMemo()` för att bearbeta och filtrera mätdata.
+- `getPowerLocation()` för att matcha frontend-ID mot API-namn.
+- `sumUsage()` för att summera mätvärden.
+- `dataKey()` för att hantera kalenderdatum.
+- `buildDailySeries()` för att skapa dagliga tidsserier.
+
+`buildDailySeries()` grupperar mätningarna per dag och använder `null` för dagar där data saknas.
+
+Den bearbetade tidsserien skickas vidare till `ElectricityLineChart`.
+
+Periodvalet utgår från den senaste tillgängliga mätningen, inte nödvändigtvis dagens datum.
+
+### Dynamiska anläggningskort
+
+Anläggningarna hämtas från `electricityDataById`:
+
+```tsx
+const facilities = Object.values(electricityDataById);
+```
+
+Därefter renderas befintliga `ElectricityConsum`-kort med `.map()`.
+
+Det innebär att nya anläggningar automatiskt kan läggas till i översikten genom datakonfigurationen, utan att varje komponent måste skrivas ut manuellt.
+
+API-mappningen behöver dock uppdateras om den nya anläggningen har ett annat namn i backend.
+
+## 5. Energiinsikter och färgkodning
+
+Vi har även arbetat med att göra energiöversikten mer lättolkad genom visuella indikatorer.
+
+Energirelaterade diagram och jämförelsestaplar använder amber/gult för att identifiera kategorin energi.
+
+Förändringar får däremot statusfärger:
+
+| Förändring                  | Visning                |
+| --------------------------- | ---------------------- |
+| Minskad förbrukning         | Grön nedåtpil          |
+| Ökad förbrukning            | Röd uppåtpil           |
+| Relativt stabil förbrukning | Grå neutral symbol     |
+| Saknad jämförbar data       | Informationsmeddelande |
+
+Vi har tagit fram en utökad `insights`-lösning där anläggningarna kan klassificeras som `decrease`, `increase`, `stable` eller `missing`.
+
+Den kan även visa antalet anläggningar i respektive kategori och procentuell förändring per anläggning.
+
+En förändring på minst 5 % används tills vidare som gräns för en tydlig ökning eller minskning. Detta är en preliminär gräns.
+
+Den utökade visuella lösningen behöver kontrolleras mot den aktuella koden vid överlämningen.
+
+## 6. Hur komponenterna samverkar
+
+### Vanliga KPI-kort
+
+```text
+FastAPI / PostgreSQL
+        ↓
+APIClient.ts
+        ↓
+VattenNivaCard /
+LatestFlowCard /
+ElectricityPerRecievedWater
+        ↓
+MetricCard.tsx
+        ↓
+Visualisering
+```
+
+### Energiöversikten
+
+```text
+FastAPI / PostgreSQL
+        ↓
+APIClient.ts
+        ↓
+ElOverview.tsx
+        │
+        ├── Sammanfattningskort
+        ├── ElectricityLineChart
+        ├── Anläggningsjämförelser
+        ├── Energiinsikter
+        └── ElectricityConsum
+```
+
+Principen är att **sidkomponenter och datakomponenter ansvarar för databehandling**, medan presentationskomponenter ansvarar för utseendet.
