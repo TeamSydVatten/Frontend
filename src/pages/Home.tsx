@@ -3,7 +3,10 @@ import LocationCard from '@/components/sydvattenKPI/LocationCard'
 import { locationById } from '@/data/locations'
 import Label from '@/components/form/Label'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
+
 const Home = () => {
+  const locations = Object.values(locationById).filter(Boolean)
+
   return (
 
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
