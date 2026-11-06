@@ -1,4 +1,3 @@
-import Label from '@/components/form/Label'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import SkaneOverview from '@/components/SydvattenKPI/SkaneOverview'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'

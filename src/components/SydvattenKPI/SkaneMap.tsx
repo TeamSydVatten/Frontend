@@ -1,4 +1,3 @@
-// SkaneMap.tsx
 import VectorMap from "@/components/TailAdminComponents/common/VectorMap";
 import { municipalities } from "@/data/municipalities";
 

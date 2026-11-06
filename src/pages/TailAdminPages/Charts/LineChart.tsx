@@ -2,8 +2,6 @@ import LineChartOne from "@/components/charts/line/LineChartOne";
 import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
 import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 import PageMeta from "@/components/TailAdminComponents/common/PageMeta";
-import LineChartTree from "@/components/charts/line/LineChartOne";
-
 export default function LineChart() {
   return (
     <>
