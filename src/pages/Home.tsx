@@ -1,116 +1,63 @@
-import Label from '@/components/form/Label'
-import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
-import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import Button from '@/components/ui/button/Button'
-import { BoxIcon, MapIcon } from '@/icons'
-import { Link } from 'react-router'
-import { MdElectricBolt, MdLocationCity } from 'react-icons/md'
-import { IoWaterOutline } from 'react-icons/io5'
-const Home = () => {
+import { useNavigate } from "react-router";
+import { IoWater } from "react-icons/io5";
+import { MdElectricBolt, MdLocationCity, MdMap } from "react-icons/md";
+import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
+import Button from "@/components/ui/button/Button";
+
+type LinkItem = { label: string; to: string; icon: React.ReactNode };
+type LinkGroup = { title: string; links: LinkItem[] };
+
+const groups: LinkGroup[] = [
+  {
+    title: "Översikter",
+    links: [
+      { label: "Vombsjön - Översikt", to: "/vomb", icon: <IoWater className="size-5" /> },
+      { label: "Ringsjön - Översikt", to: "/ringsjon", icon: <IoWater className="size-5" /> },
+      { label: "Bolmen - Översikt", to: "/bolmen", icon: <IoWater className="size-5" /> },
+    ],
+  },
+  {
+    title: "Kommuner",
+    links: [
+      { label: "Kartöversikt", to: "/karta", icon: <MdMap className="size-5" /> },
+      { label: "Malmö", to: "/kommun/malmo", icon: <MdLocationCity className="size-5" /> },
+      { label: "Lund", to: "/kommun/lund", icon: <MdLocationCity className="size-5" /> },
+    ],
+  },
+  {
+    title: "Elförbrukning",
+    links: [
+      { label: "Elöversikt", to: "/el", icon: <MdElectricBolt className="size-5" /> },
+      { label: "Alla mätare (El)", to: "/el_alla", icon: <MdElectricBolt className="size-5" /> },
+    ],
+  },
+];
+
+export default function Startsida() {
+  const navigate = useNavigate();
+
   return (
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white/90">Startsida</h1>
 
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
-      <PageMeta title="Översikt | Sydvatten" description="Översikt och startskärm" />
-      <Label><h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Startsida</h4> </Label>
-      <ComponentCard title="Översikter">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-5 md:gap-6">
-        <Link to="/vomb">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<IoWaterOutline className="size-5" />}
-            >
-              Vombsjön - Översikt
-            </Button>
-            </Link>
-
-            <Link to="/ringsjon">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<IoWaterOutline className="size-5" />}
-            >
-              Ringsjön - Översikt
-            </Button>
-            </Link>
-
-            <Link to="/bolmen">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<IoWaterOutline className="size-5" />}
-            >
-              Bolmen - Översikt
-            </Button>
-            </Link>
-
-             
-
-      </div>
-      </ComponentCard>
-
-      <ComponentCard title="Kommuner">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-5 md:gap-6">
-        <Link to="/kommuner">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<MapIcon className='size-5' />}
-            >
-              Kartöversikt
-            </Button>
-            </Link>
-
-        <Link to="/malmo">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<MdLocationCity className="size-5" />}
-            >
-              Malmö
-            </Button>
-            </Link>
-
-        <Link to="/lund">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<MdLocationCity className="size-5" />}
-            >
-              Lund
-            </Button>
-            </Link>
-
-      </div>
-      </ComponentCard>
-
-      <ComponentCard title="Elförbrukning">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-5 md:gap-6">
-        <Link to="/elOverview">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<MdElectricBolt className="size-5" />}
-            >
-              Elöversikt
-            </Button>
-            </Link>
-
-        <Link to="/el_alla">
-          <Button
-              size="sm"
-              variant="outline"
-              startIcon={<MdElectricBolt className="size-5" />}
-            >
-              Alla mätare (El)
-            </Button>
-            </Link>
-
-      </div>
-      </ComponentCard>
-      
+      {groups.map((group) => (
+        <ComponentCard key={group.title} title={group.title}>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+            {group.links.map((l) => (
+              <div key={l.to}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  startIcon={l.icon}
+                  onClick={() => navigate(l.to)}
+                >
+                  {l.label}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </ComponentCard>
+      ))}
     </div>
-  )
+  );
 }
-
-export default Home
