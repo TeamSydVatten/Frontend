@@ -13,15 +13,17 @@
     "groups": {
       "menu": "Meny",
       "support": "Support",
-      "others": "Fix och annat roligt",
-      "elforbrukning": "Elförbrukning",
-      "el_oversikt": "Elöversikt"
+      "others": "Fix och annat roligt"
+      
     },
     "badges": {
       "new": "new",
       "pro": "pro"
     },
     "items": {
+      "elforbrukning": "Elförbrukning",
+      "el_oversikt": "Elöversikt",
+      "el_alla": "Alla mätare",
       "dashboard": "Dashboard",
       "ecommerceHome": "ECommerce",
       "locationOverview" : "Översikter",

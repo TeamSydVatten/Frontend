@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ArrowDownIcon, MdOutlineWater } from "@/icons";
-import type { Location } from "@/types/location";
 import fetchAPI from "@/Services/APIClient";
 import MetricCard from "./MetricCard";
 
-export default function VattenNivaCard({ location }: { location: Location }) {
+export default function VattenNivaCard({ location }: { location: string }) {
   const [waterLevel, setWaterLevel] = useState<number | null>(null);
   const [latestDate, setDate] = useState<string | null>(null);
   const [history, setHistory] = useState<number[]>([]);
@@ -12,7 +11,7 @@ export default function VattenNivaCard({ location }: { location: Location }) {
   useEffect(() => {
     const load = async () => {
       try {
-        const response = await fetchAPI.getLakeLevel(location.id);
+        const response = await fetchAPI.getLakeLevel(location);
 
         const sorted = [...response.data]
           .filter(
@@ -29,17 +28,13 @@ export default function VattenNivaCard({ location }: { location: Location }) {
         setDate(latest?.date ?? null);
 
         setHistory(sorted.map((row) => Number(row.water_level)));
-
-        console.log("Aktuell sjö:", location.id);
-        console.log("Antal mätningar:", sorted.length);
-        console.log("Senaste mätning:", latest);
       } catch (err) {
         console.error("Fel vid hämtning:", err);
       }
     };
 
     load();
-  }, [location.id]);
+  }, [location]);
 
   return (
     <MetricCard

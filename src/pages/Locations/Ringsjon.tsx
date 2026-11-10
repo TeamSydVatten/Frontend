@@ -20,10 +20,10 @@ const Ringsjon = () => {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
 
                     
-                   <VattenNivaCard location ={locationById.ringsjon}/>
+                   <VattenNivaCard location ="ring"/>
                   
                    <LatestFlowCard location ={locationById.ringsjon} />
-                    <ElectricityPerRecievedWater location={locationById.ringsjon}/>
+                    <ElectricityPerRecievedWater location="ringsjon"/>
             </div>
             <ComponentCard title="Elförbruking">
           <LineChartOne location={thisLocation} />

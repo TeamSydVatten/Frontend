@@ -1,7 +1,10 @@
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import LineChartOne from '@/components/charts/line/LineChartOne'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import VattenNivaCard from '@/components/SydvattenKPI/VattenNivaCard'
+import LatestFlowCard from '@/components/SydvattenKPI/LatestFlowCard'
+import { locationById } from '@/data/locations'
+import ElectricityPerRecievedWater from '@/components/SydvattenKPI/ElectricityPerRecievedWater'
 const Bolmen = () => {
   return (
     <div className="grid grid-cols-1 gap-4 md:gap-6">
@@ -10,9 +13,12 @@ const Bolmen = () => {
     <ComponentCard title ="Vilken data baseras detta på?">
         <DescriptionOfData/>
         </ComponentCard>
-       <ComponentCard title="Tunnelflöde historik">
-          <LineChartOne></LineChartOne>
-       </ComponentCard>
+       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"> 
+          <VattenNivaCard location="bolmen"></VattenNivaCard>
+          <LatestFlowCard location={locationById.bolmen}></LatestFlowCard>
+          <ElectricityPerRecievedWater location='bolmen'></ElectricityPerRecievedWater>
+       </div>
+      
     </div>
   )
 }

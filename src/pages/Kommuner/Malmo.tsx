@@ -1,9 +1,10 @@
-import React from 'react'
 import Label from '@/components/form/Label'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import LineChartOne from '@/components/charts/line/LineChartOne'
-import LineChart from '../TailAdminPages/Charts/LineChart'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import FlowChartMunicipality from '@/components/SydvattenKPI/FlowChartMunicipality'
+import CompareBarChart from '@/components/SydvattenKPI/CompareBarChart'
+import { municipalityById } from '@/data/municipalities'
 
 const Malmo = () => {
   return (
@@ -13,12 +14,9 @@ const Malmo = () => {
         <DescriptionOfData/>
         </ComponentCard>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
-        <ComponentCard title="Elanvändning">
-          <LineChartOne></LineChartOne>
-        </ComponentCard>
-
+          <FlowChartMunicipality municipality="Malmö" />
         <ComponentCard title="Vattenförbrukning / person">
-          <LineChartOne></LineChartOne>
+          Ej implementerat
         </ComponentCard>
       </div>
     </div>

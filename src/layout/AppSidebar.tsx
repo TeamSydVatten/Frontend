@@ -35,9 +35,7 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Bolmen", key: "bolmen", path: "/bolmen" },
       { name: "Vombsjön", key: "vomb", path: "/vomb" },
-      { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" },
-      { name: "Vombverket", key: "vombverket", path: "/vombverket" },
-      { name: "Ringsjöverket", key: "ringsjoverket", path: "/ringsjoverket" }],
+      { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" }]
   },
 
   {
@@ -54,7 +52,8 @@ const navItems: NavItem[] = [
     name: "El",
     key: "elforbrukning",
     subItems: [
-      { name: "Elöversikt", key: "elforbrukning", path: "/elOverview" }],
+      { name: "Elöversikt", key: "el_oversikt", path: "/elOverview" },
+      { name: "Alla mätare", key: "el_alla", path: "/el_alla"}],
   }
 ];
 

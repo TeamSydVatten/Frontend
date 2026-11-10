@@ -17,7 +17,7 @@ import Kommuner from "./pages/Kommuner/Kommuner";
 import Malmo from "./pages/Kommuner/Malmo";
 import Lund from "./pages/Kommuner/Lund";
 import ElOverview from "./pages/Electricity/ElOverview";
-
+import { AllaMatare } from "./pages/Electricity/AllaMatare";
 
 export default function App() {
   return (
@@ -43,7 +43,7 @@ export default function App() {
 
             {/* Electricity Overview */}
             <Route path="/elOverview" element={<ElOverview />} />
-
+            <Route path="/el_alla" element={<AllaMatare/>} />
             <Route path="/badge" element={<Badges />} />
             <Route path="/buttons" element={<Buttons />} />
 
