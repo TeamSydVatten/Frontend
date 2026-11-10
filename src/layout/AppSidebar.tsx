@@ -33,9 +33,10 @@ const navItems: NavItem[] = [
     name: "Vatten",
     key: "locationOverview",
     subItems: [
-      { name: "Bolmen", key: "bolmen", path: "/bolmen" },
+      
       { name: "Vombsjön", key: "vomb", path: "/vomb" },
-      { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" }]
+      { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" },
+      { name: "Bolmen", key: "bolmen", path: "/bolmen" }],
   },
 
   {

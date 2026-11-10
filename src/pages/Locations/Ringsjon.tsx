@@ -15,7 +15,8 @@ const Ringsjon = () => {
       <PageMeta title="Ringsjön | Sydvatten" description="Översikt av ringsjöns mätningar" />
       <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Ringsjön</h4> 
       <ComponentCard title ="Vilken data baseras detta på?">
-              <DescriptionOfData/>
+              <DescriptionOfData description="Data visualiserad på den här sidan är genererad via diverse exceldokument med data som erhållits från Sydvatten, denna data har sedan städats och visas nu här.">
+                             </DescriptionOfData>
               </ComponentCard>
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
 
@@ -25,12 +26,6 @@ const Ringsjon = () => {
                    <LatestFlowCard location ={locationById.ringsjon} />
                     <ElectricityPerRecievedWater location="ringsjon"/>
             </div>
-            <ComponentCard title="Elförbruking">
-          <LineChartOne location={thisLocation} />
-          </ComponentCard>
-          <ComponentCard title="Vattenproduktion">
-            <LineChartOne location={thisLocation} />
-          </ComponentCard>
         </div>
     
   )

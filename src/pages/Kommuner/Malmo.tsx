@@ -11,7 +11,7 @@ const Malmo = () => {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
       <Label><h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Malmö</h4> </Label>
       <ComponentCard title="Beskrivning av data">
-        <DescriptionOfData/>
+        <DescriptionOfData description='Datan kommer ifrån olika källor, kommer att definieras vid ett senare tillfälle.'/>
         </ComponentCard>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
           <FlowChartMunicipality municipality="Malmö" />
