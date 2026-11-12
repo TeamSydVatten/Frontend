@@ -38,6 +38,8 @@ export default function App() {
             <Route path="/kommuner" element={<Kommuner/>} />
             <Route path="/malmo" element={<Malmo/>}/>
             <Route path="/lund" element={<Lund/>}/>
+            <Route path="/kommun/malmo" element={<Malmo/>}/>
+            <Route path="/kommun/lund" element={<Lund/>}/>
             {/* Others Page */}
             <Route path="/blank" element={<Blank />} />
 
@@ -46,7 +48,7 @@ export default function App() {
             <Route path="/el_alla" element={<AllaMatare/>} />
             <Route path="/badge" element={<Badges />} />
             <Route path="/buttons" element={<Buttons />} />
-
+            <Route path="/el" element={<ElOverview/>}/>
             {/* Charts */}
             <Route path="/line-chart" element={<LineChart />} />
             <Route path="/bar-chart" element={<BarChart />} />
