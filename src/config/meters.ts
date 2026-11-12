@@ -117,13 +117,16 @@ export const METER_MASTER: MeterEntry[] = [
   { meter_id: "DRDLQ02-FT1203/I.PV_Out#Value", location: "ÄNGELHOLM", chamber: "DRGA20", comment: "Ängelholm", sign: 1, valid_from: "2022-01-26", valid_to: null },
 ];
 
+// Backend tar bort suffixet "/I.PV_Out#Value", så jämför bara delen före "/".
+const baseMeterId = (id: string) => id.split("/")[0];
+
 // Uppslag: `${meter_id}|${LOCATION}` -> post
 const INDEX = new Map<string, MeterEntry>(
-  METER_MASTER.map((m) => [`${m.meter_id}|${normalize(m.location)}`, m])
+  METER_MASTER.map((m) => [`${baseMeterId(m.meter_id)}|${normalize(m.location)}`, m])
 );
 
 export function getMeterEntry(meterId: string, locationId: string): MeterEntry | undefined {
-  return INDEX.get(`${meterId}|${normalize(locationId)}`);
+  return INDEX.get(`${baseMeterId(meterId)}|${normalize(locationId)}`);
 }
 
  //Vikt för en mätarrad: +1, -1 eller 0 (mätaren ska inte räknas).
