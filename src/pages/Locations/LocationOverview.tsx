@@ -1,4 +1,4 @@
-import LocationCard from '@/components/sydvattenKPI/LocationCard'
+import LocationCard from '@/components/SydvattenKPI/LocationCard'
 import EcommerceMetrics from '@/components/TailAdminComponents/ecommerce/EcommerceMetrics'
 import { locationById, type LocationId } from '@/data/locations'
 
