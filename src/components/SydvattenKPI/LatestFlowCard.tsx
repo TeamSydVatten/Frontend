@@ -16,13 +16,6 @@ export default function LatestFlowCard({ location }: { location: Location }) {
   const [latestDate, setDate] = useState<Date | null>(null);
   const [history, setHistory] = useState<number[]>([]);
   const [change, setChange] = useState<number | undefined>(undefined);
-  console.log("LatestFlowCard renderas", {
-    location,
-    flow,
-    latestDate,
-    history,
-    change,
-  });
   useEffect(() => {
     const load = async () => {
       try {

@@ -8,9 +8,6 @@ const Kommuner = () => {
     <div className='grid grid-cols-1 gap-4'>
       <PageMeta title="Översikt Kommuner | Sydvatten" description="Karta med kommuners data" />
     <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Översikt</h4>
-    <ComponentCard title="Var hittar vi datan">
-      <DescriptionOfData></DescriptionOfData>
-    </ComponentCard> 
     <ComponentCard title="Kommuner"><SkaneOverview /></ComponentCard>
     
     </div>

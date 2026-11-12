@@ -57,7 +57,7 @@ export const locationById = {
   
   },
   ringsjon: {
-    id: "ringsjon",
+    id: "ring",
     name: "Ringsjön",
     description: "Ser ut som en ring typ.",
     waterflow: 12.8,

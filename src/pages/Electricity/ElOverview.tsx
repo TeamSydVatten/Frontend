@@ -613,7 +613,7 @@ export default function ElOverview() {
         </p>
       </section>
 
-      <section>
+      <section>{/*
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
           Anläggningar och pumpstationer
         </h2>
@@ -626,7 +626,7 @@ export default function ElOverview() {
           {facilities.map((facility) => (
             <ElectricityConsum key={facility.id} electricityData={facility} />
           ))}
-        </div>
+        </div> */}
       </section>
     </div>
   );

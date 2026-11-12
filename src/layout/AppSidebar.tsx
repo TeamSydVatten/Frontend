@@ -33,11 +33,10 @@ const navItems: NavItem[] = [
     name: "Vatten",
     key: "locationOverview",
     subItems: [
-      { name: "Bolmen", key: "bolmen", path: "/bolmen" },
+      
       { name: "Vombsjön", key: "vomb", path: "/vomb" },
       { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" },
-      { name: "Vombverket", key: "vombverket", path: "/vombverket" },
-      { name: "Ringsjöverket", key: "ringsjoverket", path: "/ringsjoverket" }],
+      { name: "Bolmen", key: "bolmen", path: "/bolmen" }],
   },
 
   {
@@ -54,7 +53,8 @@ const navItems: NavItem[] = [
     name: "El",
     key: "elforbrukning",
     subItems: [
-      { name: "Elöversikt", key: "elforbrukning", path: "/elOverview" }],
+      { name: "Elöversikt", key: "el_oversikt", path: "/elOverview" },
+      { name: "Alla mätare", key: "el_alla", path: "/el_alla"}],
   }
 ];
 
@@ -307,14 +307,14 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 className="dark:hidden"
-                src="https://www.allabolag.se/images/trademark/2147834.jpg"
+                src="src/components/ui/sydvatten_svart_transparent.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <img
                 className="hidden dark:block"
-                src="https://www.allabolag.se/images/trademark/2147832.jpg"
+                src="src/components/ui/sydvatten_vit_transparent.png"
                 alt="Logo"
                 width={150}
                 height={40}

@@ -36,6 +36,10 @@ const fetchAPI = {
   getPowerData(){
     return get(`/power/data`)
   }
+  ,
+  getFlowByMunicipality(municipality: string){
+    return get(`/flow/municipality/${encodeURIComponent(municipality)}`)}
+  ,
 
   // Fler endpoints lägger du bara till här:
   // getData(name: string) { return get(`/flow/data/${encodeURIComponent(name)}`); },

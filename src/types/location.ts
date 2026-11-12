@@ -1,9 +1,12 @@
-interface BaseLocation {
+interface Named {
   id: string;
   name: string;
   description: string;
-  series: { date: string; value: number }[];
-  lossSeries: { date: string; value: number }[];
+}
+
+interface BaseLocation extends Named {
+  series: Point[];
+  lossSeries: Point[];
   meterId: string;
 }
 
@@ -19,9 +22,10 @@ export interface Location extends BaseLocation {
   };
 }
 
-export interface Municipality extends BaseLocation {
+export interface Municipality extends Named {
   regionCode: string;
   population: number;
   totalConsumption: number;
   waterLoss: number;
+  lastfiveyears: Record<number, number>;
 }
