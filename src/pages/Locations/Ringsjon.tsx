@@ -1,9 +1,9 @@
 import { locationById } from '@/data/locations'
-import LatestFlowCard from '@/components/sydvattenKPI/LatestFlowCard'
-import VattenNivaCard from '@/components/sydvattenKPI/VattenNivaCard'
+import LatestFlowCard from '@/components/SydvattenKPI/LatestFlowCard'
+import VattenNivaCard from '@/components/SydvattenKPI/VattenNivaCard'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import LineChartOne from '@/components/charts/line/LineChartOne'
-import ElectricityPerRecievedWater from '@/components/sydvattenKPI/ElectricityPerRecievedWater'
+import ElectricityPerRecievedWater from '@/components/SydvattenKPI/ElectricityPerRecievedWater'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 
