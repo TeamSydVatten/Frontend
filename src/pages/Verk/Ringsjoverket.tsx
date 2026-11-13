@@ -8,9 +8,14 @@ const Ringsjoverket = () => {
       <PageMeta title="Ringsjöverket | Sydvatten" description="Översikt av Ringsjöverkets mätningar" />
       <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Ringsjöverket</h4>
 
-      <ComponentCard title="Vilken data baseras detta på?">
-        <DescriptionOfData />
-      </ComponentCard>
+      <ComponentCard title="Hur verk ska se ut" >
+       <DescriptionOfData description='Här ska det ligga en jämförelsevy som benämns i issue:'/>
+       <a href="https://github.com/TeamSydVatten/Frontend/issues/24"
+              target="_blank"
+            rel="noopener noreferrer">
+            Länk till issue
+            </a>
+       </ComponentCard>
     </div>
   );
 };

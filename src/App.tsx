@@ -8,16 +8,18 @@ import Blank from "./pages/TailAdminPages/OtherPage/Blank";
 import NotFound from "./pages/TailAdminPages/OtherPage/NotFound";
 import Badges from "./pages/TailAdminPages/UiElements/Badges";
 import Buttons from "./pages/TailAdminPages/UiElements/Buttons";
-import Bolmen from "./pages/Locations/Bolmen";
-import Vomb from "./pages/Locations/Vomb";
-import Ringsjon from "./pages/Locations/Ringsjon";
-import Vombverket from "./pages/Locations/Vombverket";
-import Ringsjoverket from "./pages/Locations/Ringsjoverket";
+import Bolmen from "./pages/Sjöar/Bolmen";
+import Vomb from "./pages/Sjöar/Vomb";
+import Ringsjon from "./pages/Sjöar/Ringsjon";
+import Vombverket from "./pages/Verk/Vombverket";
+import Ringsjoverket from "./pages/Verk/Ringsjoverket";
 import Kommuner from "./pages/Kommuner/Kommuner";
 import Malmo from "./pages/Kommuner/Malmo";
 import Lund from "./pages/Kommuner/Lund";
 import ElOverview from "./pages/Electricity/ElOverview";
 import { AllaMatare } from "./pages/Electricity/AllaMatare";
+import Analysvy from "./pages/Analysvy";
+import VerkOverview from "./pages/Verk/VerkOverview";
 
 export default function App() {
   return (
@@ -40,6 +42,9 @@ export default function App() {
             <Route path="/lund" element={<Lund/>}/>
             <Route path="/kommun/malmo" element={<Malmo/>}/>
             <Route path="/kommun/lund" element={<Lund/>}/>
+            <Route path="/analysvy" element={<Analysvy/>}/>
+            <Route path="/verkoverview" element={<VerkOverview/>}/>
+            
             {/* Others Page */}
             <Route path="/blank" element={<Blank />} />
 

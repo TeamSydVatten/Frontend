@@ -10,15 +10,22 @@ const Malmo = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
       <Label><h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Malmö</h4> </Label>
-      <ComponentCard title="Beskrivning av data">
-        <DescriptionOfData description='Datan kommer ifrån olika källor, kommer att definieras vid ett senare tillfälle.'/>
-        </ComponentCard>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
-          <FlowChartMunicipality municipality="Malmö" />
-        <ComponentCard title="Vattenförbrukning / person">
-          Ej implementerat
-        </ComponentCard>
-      </div>
+      <ComponentCard title="Kommunvy - förklaring" >
+       <DescriptionOfData description='Varje kommun ska visa olika saker:'/>
+       <a href="https://github.com/TeamSydVatten/Frontend/issues/19"
+              target="_blank"
+            rel="noopener noreferrer">
+            Issue - Befolkningsmängdskomponent
+            </a>
+            <br></br>
+      <a href="https://github.com/TeamSydVatten/Frontend/issues/20"
+              target="_blank"
+            rel="noopener noreferrer">
+             Issue - Snittförbrukningcomponent
+            </a>
+            
+       </ComponentCard>
+
     </div>
   )
 }

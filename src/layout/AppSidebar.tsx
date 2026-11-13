@@ -8,7 +8,7 @@ import {
   PageIcon
 } from "../icons";
 import { cn } from "../utils";
-import { IoLocation } from "react-icons/io5";
+import { IoBuild, IoBusiness, IoFlash, IoLocation, IoMap, IoWater, IoWaterOutline } from "react-icons/io5";
 import { IoLogoElectron } from "react-icons/io5";
 type NavItem = {
   name: string;
@@ -29,18 +29,28 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <PageIcon></PageIcon>,
+    icon: <IoWater/>,
     name: "Vatten",
-    key: "locationOverview",
+    key: "lakes",
     subItems: [
       
       { name: "Vombsjön", key: "vomb", path: "/vomb" },
       { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" },
       { name: "Bolmen", key: "bolmen", path: "/bolmen" }],
   },
+  {
+    icon: <IoBusiness/>,
+    name: "Verk",
+    key: "verk",
+    subItems: [
+      { name: "verkoversikt", key: "verkjamforelsevy", path: "/verkoverview" },
+      { name: "Vombsjön", key: "vombverket", path: "/vombverket" },
+      { name: "Ringsjön", key: "ringsjoverket", path: "/ringsjoverket" },
+    ],
+  },
 
   {
-    icon: <IoLocation></IoLocation>,
+    icon: <IoMap/>,
     name: "Kommuner",
     key: "kommuner",
     subItems: [
@@ -49,7 +59,7 @@ const navItems: NavItem[] = [
       { name: "Lund", key: "lund", path: "/lund" }],
   },
   {
-    icon: <IoLogoElectron/>,
+    icon: <IoFlash/>,
     name: "El",
     key: "elforbrukning",
     subItems: [

@@ -12,19 +12,20 @@ const Vomb = () => {
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Vombsjön Översikt | Sydvatten" description="Översikt av Vombsjöns mätningar" />
       <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Vomb</h4>
-      <ComponentCard title ="Vilken data baseras detta på?">
-              <DescriptionOfData description="Data visualiserad på den här sidan är genererad via diverse exceldokument med data som erhållits från Sydvatten, denna data har sedan städats och visas nu här.">
-              
-              </DescriptionOfData>
-              </ComponentCard>
+      <div><ComponentCard title="Ej implementerat" >
+       <DescriptionOfData description='Hur SJÖAR ska se ut benämns här:'/>
+       <a href="https://github.com/TeamSydVatten/Frontend/issues/23"
+              target="_blank"
+            rel="noopener noreferrer">
+            Länk till issue
+            </a>
+       </ComponentCard>
+      </div>
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"> 
       <VattenNivaCard location ="Vomb"/>
       <LatestFlowCard location ={thisLocation} />
       <ElectricityPerRecievedWater location="Vombverket"/>
     </div>
-        <ComponentCard title="Exempel hur data kan visas (ej baserad på riktig data)">
-          <CompareLineChart location={thisLocation}/>
-        </ComponentCard>
 
     </div>
   );
