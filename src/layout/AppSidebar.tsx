@@ -8,8 +8,8 @@ import {
   PageIcon
 } from "../icons";
 import { cn } from "../utils";
-import { IoBuild, IoBusiness, IoFlash, IoLocation, IoMap, IoWater, IoWaterOutline } from "react-icons/io5";
-import { IoLogoElectron } from "react-icons/io5";
+import {  IoArrowForward, IoBarChart, IoBusiness, IoFlash,  IoMap, IoWater,} from "react-icons/io5";
+
 type NavItem = {
   name: string;
   key?: string;
@@ -39,6 +39,14 @@ const navItems: NavItem[] = [
       { name: "Bolmen", key: "bolmen", path: "/bolmen" }],
   },
   {
+    icon: <IoArrowForward/>,
+    name: "Flöde",
+    key: "flow",
+    subItems: [
+      { name: "verkoversikt", key: "flowoverview", path: "/flowoverview" },
+    ],
+  },
+  {
     icon: <IoBusiness/>,
     name: "Verk",
     key: "verk",
@@ -65,7 +73,15 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Elöversikt", key: "el_oversikt", path: "/elOverview" },
       { name: "Alla mätare", key: "el_alla", path: "/el_alla"}],
-  }
+  },
+  {
+    icon: <IoBarChart/>,
+    name: "Analysis",
+    key: "analysis",
+    subItems: [
+      { name: "verkoversikt", key: "analysis", path: "/analysvy" },
+    ],
+  },
 ];
 
 const othersItems: NavItem[] = [

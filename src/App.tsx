@@ -20,6 +20,7 @@ import ElOverview from "./pages/Electricity/ElOverview";
 import { AllaMatare } from "./pages/Electricity/AllaMatare";
 import Analysvy from "./pages/Analysvy";
 import VerkOverview from "./pages/Verk/VerkOverview";
+import FlowOverview from "./pages/FlowOverView";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/kommun/lund" element={<Lund/>}/>
             <Route path="/analysvy" element={<Analysvy/>}/>
             <Route path="/verkoverview" element={<VerkOverview/>}/>
+            <Route path="/flowoverview" element={<FlowOverview/>}/>
             
             {/* Others Page */}
             <Route path="/blank" element={<Blank />} />
