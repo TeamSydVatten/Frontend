@@ -9,6 +9,7 @@ import {
 } from "../icons";
 import { cn } from "../utils";
 import {  IoArrowForward, IoBarChart, IoBusiness, IoFlash,  IoMap, IoWater,} from "react-icons/io5";
+import { ThemeToggleButton } from "@/components/TailAdminComponents/common/ThemeToggleButton";
 
 type NavItem = {
   name: string;
@@ -328,6 +329,7 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "xl:justify-center" : "justify-start",
         )}
       >
+        
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
@@ -355,11 +357,14 @@ const AppSidebar: React.FC = () => {
             />
           )}
         </Link>
+           
       </div>
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="mb-6">
+          
           <div className="flex flex-col gap-4">
+            
             <div>
               <h2
                 className={`mb-4 flex text-xs leading-5 text-gray-400 uppercase ${
@@ -395,8 +400,13 @@ const AppSidebar: React.FC = () => {
             </div>*/}
           </div>
         </nav>
-
+         
         {isExpanded || isHovered || isMobileOpen ? null : null}
+        
+      </div>
+      <div className="mt-auto border-t border-gray-200 py-4 dark:border-gray-800">
+        <ThemeToggleButton />
+        
       </div>
     </aside>
   );

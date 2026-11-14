@@ -4,6 +4,7 @@ import { Outlet } from "react-router";
 import AppHeader from "./AppHeader";
 import AppSidebar from "./AppSidebar";
 import Backdrop from "./Backdrop";
+import { ThemeToggleButton } from "@/components/TailAdminComponents/common/ThemeToggleButton";
 
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -11,6 +12,7 @@ const LayoutContent: React.FC = () => {
   return (
     <div className="min-h-screen xl:flex">
       <AppSidebar />
+      
       <Backdrop />
 
       <div
@@ -20,7 +22,7 @@ const LayoutContent: React.FC = () => {
           isMobileOpen ? "ms-0" : "",
         )}
       >
-        <AppHeader />
+        {/* <AppHeader />  BORTKOMMENTERAD JUST NU, LÄGG TILL OM MAN VILL HA DEN IGEN*/}
         <main className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
           <Outlet />
         </main>
