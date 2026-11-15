@@ -45,6 +45,23 @@ const fetchAPI = {
     return get(`/power/data?days=${days}`);
   },
 
+  // Daglig elförbrukning per plats, from/to = "YYYY-MM-DD"
+  getPowerDaily(from: string, to: string) {
+    return get(`/power/daily?from_date=${from}&to_date=${to}`);
+  },
+
+  // Medelflöde per mätare i perioden, from/to = "YYYY-MM-DD"
+  getMunicipalityPeriod(name: string, from: string, to: string) {
+    return get(
+      `/flow/municipality/${encodeURIComponent(name)}?from_date=${from}&to_date=${to}`,
+    );
+  },
+
+  // Första och sista mätningen för flöde och el
+  getDataRange() {
+    return get(`/range`);
+  },
+
   getFlowByMunicipality(municipality: string, latest: boolean = true) {
     return get(
       `/flow/municipality/${encodeURIComponent(municipality)}?latest=${latest}`,
