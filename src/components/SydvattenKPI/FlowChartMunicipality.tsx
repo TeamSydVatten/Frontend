@@ -15,8 +15,9 @@ interface WaterFlowRow {
 
 interface WaterFlowResponse {
   status: string;
-  count: number;
-  data: WaterFlowRow[];
+  count?: number;
+  data?: WaterFlowRow[];
+  error?: string;
 }
 
 export default function FlowChartMunicipality({
@@ -46,6 +47,10 @@ export default function FlowChartMunicipality({
               )
             : await fetchAPI.getMunicipality(municipality)
         ) as WaterFlowResponse;
+
+        if (!Array.isArray(response.data)) {
+          throw new Error(response.error ?? "Ogiltigt API-svar");
+        }
 
         if (!cancelled) {
           setData(response.data);
