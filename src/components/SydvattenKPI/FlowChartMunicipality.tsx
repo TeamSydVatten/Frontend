@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import type { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 import fetchAPI from "@/Services/APIClient";
+import { format } from "date-fns";
+import DateRangePicker, { type DateRangeValue } from "./DateRangePicker";
+import { useDataRange } from "@/hooks/useDataRange";
 
 interface WaterFlowRow {
   meter_id: string;
@@ -12,8 +15,9 @@ interface WaterFlowRow {
 
 interface WaterFlowResponse {
   status: string;
-  count: number;
-  data: WaterFlowRow[];
+  count?: number;
+  data?: WaterFlowRow[];
+  error?: string;
 }
 
 export default function FlowChartMunicipality({
@@ -23,6 +27,9 @@ export default function FlowChartMunicipality({
 }) {
   const [data, setData] = useState<WaterFlowRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const dataRange = useDataRange("flow");
+  // null = senaste mättillfället, annars medelflöde i vald period
+  const [range, setRange] = useState<DateRangeValue | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -31,9 +38,19 @@ export default function FlowChartMunicipality({
       setLoading(true);
 
       try {
-        const response = (await fetchAPI.getMunicipality(
-          municipality
-        )) as WaterFlowResponse;
+        const response = (
+          range
+            ? await fetchAPI.getMunicipalityPeriod(
+                municipality,
+                format(range.from, "yyyy-MM-dd"),
+                format(range.to, "yyyy-MM-dd"),
+              )
+            : await fetchAPI.getMunicipality(municipality)
+        ) as WaterFlowResponse;
+
+        if (!Array.isArray(response.data)) {
+          throw new Error(response.error ?? "Ogiltigt API-svar");
+        }
 
         if (!cancelled) {
           setData(response.data);
@@ -51,7 +68,7 @@ export default function FlowChartMunicipality({
     return () => {
       cancelled = true;
     };
-  }, [municipality]);
+  }, [municipality, range]);
 
   const sortedData = useMemo(() => {
     return data
@@ -141,17 +158,32 @@ export default function FlowChartMunicipality({
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] sm:p-6">
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-          Vattenflöde per mätare
-        </h3>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+              Vattenflöde per mätare
+            </h3>
 
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          {municipality} · Senaste mättillfället
-        </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {municipality} ·{" "}
+              {range ? "Medelflöde i vald period" : "Senaste mättillfället"}
+            </p>
+          </div>
+
+          {dataRange && (
+            <DateRangePicker
+              value={range ?? { from: dataRange.maxDate, to: dataRange.maxDate }}
+              onChange={setRange}
+              align="end"
+              minDate={dataRange.minDate}
+              maxDate={dataRange.maxDate}
+            />
+          )}
+        </div>
 
         <div className="mt-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Totalt vattenflöde
+            {range ? "Totalt medelflöde (L/s)" : "Totalt vattenflöde (L/s)"}
           </p>
           <p className="text-2xl font-semibold text-gray-800 dark:text-white">
             {total.toFixed(2)}

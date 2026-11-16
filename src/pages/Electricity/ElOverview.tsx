@@ -4,6 +4,11 @@ import ElectricityConsum from "@/components/SydvattenKPI/ElectricityConsum";
 import { electricityDataById } from "@/data/electricityData";
 import fetchAPI from "@/Services/APIClient";
 import ElectricityLineChart from "@/components/SydvattenKPI/ElectricityLineChart";
+import DateRangePicker, {
+  type DateRangeValue,
+} from "@/components/SydvattenKPI/DateRangePicker";
+import { useDataRange } from "@/hooks/useDataRange";
+import { differenceInCalendarDays, format, subDays } from "date-fns";
 import {
   MdTrendingDown,
   MdTrendingUp,
@@ -96,20 +101,39 @@ function buildDailySeries(
 
 export default function ElOverview() {
   const [powerData, setPowerData] = useState<PowerRow[]>([]);
-  const [period, setPeriod] = useState<7 | 30>(7);
+  const dataRange = useDataRange("power");
+  const [pickedRange, setRange] = useState<DateRangeValue | null>(null);
   const [selectedFacility, setSelectedFacility] = useState("all");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Standard: senaste 7 dagarna med data
+  const defaultRange = useMemo(
+    () =>
+      dataRange
+        ? { from: subDays(dataRange.maxDate, 6), to: dataRange.maxDate }
+        : null,
+    [dataRange],
+  );
+  const range = pickedRange ?? defaultRange;
+
+  // Antal dagar i vald period
+  const period = range ? differenceInCalendarDays(range.to, range.from) + 1 : 7;
+
   useEffect(() => {
+    if (!range) return;
     let cancelled = false;
 
     const load = async () => {
       try {
         setLoading(true);
 
-        const response = (await fetchAPI.getPowerData()) as PowerResponse;
+        // Hämta även lika lång period innan, för jämförelsen
+        const response = (await fetchAPI.getPowerDaily(
+          format(subDays(range.from, period), "yyyy-MM-dd"),
+          format(range.to, "yyyy-MM-dd"),
+        )) as PowerResponse;
 
         if (!Array.isArray(response.data)) {
           throw new Error("Ogiltigt API Svar");
@@ -151,7 +175,7 @@ export default function ElOverview() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [range, period]);
 
   //Här kommer filtrering av alla registrerade anläggningar
 
@@ -164,15 +188,11 @@ export default function ElOverview() {
     return powerData.filter((row) => names.has(row.location));
   }, [powerData]);
 
-  //Hitta senaste mätningar
-
-  const latestTime = useMemo(() => {
-    return recognizedData.reduce(
-      (latest, row) => Math.max(latest, Date.parse(row.timestamp)),
-      -Infinity,
-    );
-  }, [recognizedData]);
-  const hasData = Number.isFinite(latestTime);
+  // Periodens sista dag (mitt på dagen, så tidszonen inte flyttar datumet)
+  const latestTime = range
+    ? Date.parse(`${format(range.to, "yyyy-MM-dd")}T12:00:00Z`)
+    : -Infinity;
+  const hasData = Number.isFinite(latestTime) && recognizedData.length > 0;
 
   const { currentRows, previousRows } = useMemo(() => {
     if (!hasData) {
@@ -336,30 +356,22 @@ export default function ElOverview() {
           pumpstationer.
         </p>
 
-        {hasData && (
+        {dataRange && (
           <p className="mt-2 text-xs text-gray-400">
-            Senaste tillgängliga mätning:{" "}
-            {new Date(latestTime).toLocaleString("sv-SE")}
+            Data finns från {format(dataRange.minDate, "yyyy-MM-dd")} till{" "}
+            {format(dataRange.maxDate, "yyyy-MM-dd")}
           </p>
         )}
       </header>
 
-      <div className="flex gap-2">
-        {([7, 30] as const).map((days) => (
-          <button
-            key={days}
-            type="button"
-            onClick={() => setPeriod(days)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium ${
-              period === days
-                ? "bg-amber-500 text-gray-950"
-                : "border border-gray-200 bg-white text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
-            }`}
-          >
-            {days} dagar
-          </button>
-        ))}
-      </div>
+      {range && (
+        <DateRangePicker
+          value={range}
+          onChange={setRange}
+          minDate={dataRange?.minDate}
+          maxDate={dataRange?.maxDate}
+        />
+      )}
 
       {error && (
         <p role="alert" className="text-sm text-red-500">
@@ -383,7 +395,7 @@ export default function ElOverview() {
                 ? `${formatUsage(totalUsage)} kWh`
                 : "—"
           }
-          description={`Senaste ${period} kalenderdagarna`}
+          description={`${period} dagar i vald period`}
         />
 
         <SummaryCard
