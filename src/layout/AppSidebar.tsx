@@ -8,82 +8,8 @@ import {
   PageIcon
 } from "../icons";
 import { cn } from "../utils";
-import {  IoArrowForward, IoBarChart, IoBusiness, IoFlash,  IoMap, IoWater,} from "react-icons/io5";
+import { navItems, type NavItem } from "./navItems";
 import { ThemeToggleButton } from "@/components/TailAdminComponents/common/ThemeToggleButton";
-
-type NavItem = {
-  name: string;
-  key?: string;
-  icon: React.ReactNode;
-  path?: string;
-  new?: boolean;
-  target?: string;
-  subItems?: {
-    name: string;
-    key?: string;
-    path: string;
-    pro?: boolean;
-    new?: boolean;
-    target?: string;
-  }[];
-};
-
-const navItems: NavItem[] = [
-  {
-    icon: <IoWater/>,
-    name: "Vatten",
-    key: "lakes",
-    subItems: [
-      
-      { name: "Vombsjön", key: "vomb", path: "/vomb" },
-      { name: "Ringsjön", key: "ringsjon", path: "/ringsjon" },
-      { name: "Bolmen", key: "bolmen", path: "/bolmen" }],
-  },
-  {
-    icon: <IoArrowForward/>,
-    name: "Flöde",
-    key: "flow",
-    subItems: [
-      { name: "verkoversikt", key: "flowoverview", path: "/flowoverview" },
-    ],
-  },
-  {
-    icon: <IoBusiness/>,
-    name: "Verk",
-    key: "verk",
-    subItems: [
-      { name: "verkoversikt", key: "verkjamforelsevy", path: "/verkoverview" },
-      { name: "Vombsjön", key: "vombverket", path: "/vombverket" },
-      { name: "Ringsjön", key: "ringsjoverket", path: "/ringsjoverket" },
-    ],
-  },
-
-  {
-    icon: <IoMap/>,
-    name: "Kommuner",
-    key: "kommuner",
-    subItems: [
-      { name: "Kartöversikt", key: "kommunoversikt", path: "/kommuner" },
-      { name: "Malmö", key: "malmo", path: "/malmo" },
-      { name: "Lund", key: "lund", path: "/lund" }],
-  },
-  {
-    icon: <IoFlash/>,
-    name: "El",
-    key: "elforbrukning",
-    subItems: [
-      { name: "Elöversikt", key: "el_oversikt", path: "/elOverview" },
-      { name: "Alla mätare", key: "el_alla", path: "/el_alla"}],
-  },
-  {
-    icon: <IoBarChart/>,
-    name: "Analysis",
-    key: "analysis",
-    subItems: [
-      { name: "verkoversikt", key: "analysis", path: "/analysvy" },
-    ],
-  },
-];
 
 const othersItems: NavItem[] = [
 ];
