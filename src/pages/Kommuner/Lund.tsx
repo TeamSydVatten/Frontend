@@ -3,6 +3,7 @@ import React from 'react'
 import Label from '@/components/form/Label'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
+import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
 const Lund = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
@@ -12,7 +13,7 @@ const Lund = () => {
       </ComponentCard>
       
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
-        
+        <PopulationTrendChart municipality="Lund" />
       </div>
       
     </div>

@@ -921,5 +921,21 @@
         "population": "Befolkning"
       }
     }
+  },
+  "municipality": {
+    "population": {
+      "title": "Befolkningsutveckling",
+      "subtitle": "{municipality} · {from}–{to}",
+      "seriesName": "Befolkning",
+      "inhabitants": "invånare",
+      "latest": "Befolkning {year}",
+      "changeSince": "Förändring sedan {year}",
+      "yearlyChange": "Genomsnittlig förändring",
+      "perYear": "per år",
+      "loading": "Hämtar data...",
+      "noData": "Ingen befolkningsdata tillgänglig",
+      "error": "Kunde inte hämta befolkningsdata",
+      "source": "Källa: SCB, folkmängd 31 december respektive år."
+    }
   }
 }
