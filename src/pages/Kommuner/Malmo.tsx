@@ -5,6 +5,7 @@ import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import FlowChartMunicipality from '@/components/SydvattenKPI/FlowChartMunicipality'
 import CompareBarChart from '@/components/SydvattenKPI/CompareBarChart'
 import { municipalityById } from '@/data/municipalities'
+import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
 
 const Malmo = () => {
   return (
@@ -26,6 +27,7 @@ const Malmo = () => {
             
        </ComponentCard>
 
+      <PopulationTrendChart municipality="Malmö" />
     </div>
   )
 }

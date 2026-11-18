@@ -1,4 +1,4 @@
-import type { LakeLevelResponse } from "@/types/APItypes";
+import type { LakeLevelResponse, PopulationResponse } from "@/types/APItypes";
 
 const BASE_URL = "http://localhost:8000";
 
@@ -40,6 +40,11 @@ const fetchAPI = {
   getFlowByMunicipality(municipality: string){
     return get(`/flow/municipality/${encodeURIComponent(municipality)}`)}
   ,
+
+  /** Befolkning per år (från SCB) för en kommun, t.ex. "Malmö" */
+  getPopulationByMunicipality(municipality: string) {
+    return get<PopulationResponse>(`/population/municipality/${encodeURIComponent(municipality)}`);
+  },
 
   // Fler endpoints lägger du bara till här:
   // getData(name: string) { return get(`/flow/data/${encodeURIComponent(name)}`); },

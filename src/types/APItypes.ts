@@ -24,3 +24,15 @@ export interface LakeLevelResponse {
   data: LakeLevelRow[];
 }
 
+
+export interface PopulationRow {
+  municipality: string;
+  population: number;
+  year: number;
+}
+
+export interface PopulationResponse {
+  status: string;
+  count: number;
+  data: PopulationRow[];
+}
