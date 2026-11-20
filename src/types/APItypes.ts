@@ -24,15 +24,33 @@ export interface LakeLevelResponse {
   data: LakeLevelRow[];
 }
 
+export type NetFlowResponse = {
+  status: string;
+  municipality: string;
+  data: { total_pos: number; total_neg: number; total_sum: number }[];
+  error?: string;
+}
 
-export interface PopulationRow {
+export type PopulationRow = {
   municipality: string;
   population: number;
   year: number;
 }
 
-export interface PopulationResponse {
+export type PopulationResponse = {
   status: string;
   count: number;
   data: PopulationRow[];
 }
+
+export type YearlyFlowResponse = {
+  status: string;
+  data: {
+    municipality: string;
+    year: number;
+    total_pos: number;
+    total_neg: number;
+    total_sum: number;
+  }[];
+};
+

@@ -32,7 +32,7 @@ export default function SkaneMap({
       <VectorMap
         map="skane"
         backgroundColor="transparent"
-        zoomOnScroll={true}
+        zoomOnScroll={false}
         zoomButtons={true}
         regionStyle={REGION_STYLE}
       />

@@ -1,5 +1,6 @@
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import SkaneOverview from '@/components/SydvattenKPI/SkaneOverview'
+import MunicipalityWaterUsageTable from '@/components/SydvattenKPI/Hiscores'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
@@ -17,7 +18,7 @@ const Kommuner = () => {
             Länk till issue
             </a>
        </ComponentCard>
-
+        <MunicipalityWaterUsageTable></MunicipalityWaterUsageTable>
 
     
     <ComponentCard title="Kommuner"><SkaneOverview /></ComponentCard>
