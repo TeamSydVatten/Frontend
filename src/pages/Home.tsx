@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
 import Button from "@/components/ui/button/Button";
 import { navItems } from "@/layout/navItems";
+import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 
 // Snabblänkarna byggs från samma lista som sidomenyn (src/layout/navItems.tsx),
 // så nya sidor i menyn dyker upp här automatiskt.
@@ -15,8 +16,7 @@ export default function Startsida() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white/90">Startsida</h1>
-
+      <PageBreadcrumb pageTitle="Startsida"/>
       {navItems
         .filter((group) => group.subItems?.length)
         .map((group) => (

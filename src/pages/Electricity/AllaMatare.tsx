@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import ElectricityPerRecievedWater from "@/components/SydvattenKPI/ElectricityPerRecievedWater";
 import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
 import { usePowerData } from "@/hooks/usePowerData";
+import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 
 export const AllaMatare = () => {
   const { rows, loading, error } = usePowerData();
@@ -19,6 +20,7 @@ export const AllaMatare = () => {
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <PageBreadcrumb pageTitle="Alla mätare"/>
       {stations.map((station) => (
         <ComponentCard key={station} title={station}>
           <ElectricityPerRecievedWater location={station} />

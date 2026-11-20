@@ -10,6 +10,7 @@ import {
   MdRemove,
   MdInfoOutline,
 } from "react-icons/md";
+import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 
 interface PowerRow {
   location: string;
@@ -327,9 +328,7 @@ export default function ElOverview() {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Energiöversikt
-        </h1>
+        <PageBreadcrumb pageTitle="Energiöversikt"/>
 
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           Följ och jämför energianvändningen vid Sydvattens vattenverk och
