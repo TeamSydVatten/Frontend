@@ -54,5 +54,3 @@ export type YearlyFlowResponse = {
   }[];
 };
 
-;
-

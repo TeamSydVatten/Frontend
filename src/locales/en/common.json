@@ -900,5 +900,42 @@
         "inProgress": "In Progress"
       }
     }
+  },
+  "analysis": {
+    "kpiSelector": {
+      "title": "Anpassad dataanalys",
+      "description": "Välj upp till {max} datakällor att jämföra.",
+      "sourceLabel": "Datakälla {position}",
+      "noneSelected": "Ingen vald",
+      "period": "Tidsperiod",
+      "periodPlaceholder": "Välj start- och slutdatum",
+      "historical": "Historisk jämförelse",
+      "previousYears_one": "Föregående år",
+      "previousYears_other": "Föregående {count} år",
+      "sources": {
+        "title": "Datakällor",
+        "electricity": "Elförbrukning",
+        "waterProduction": "Vattenproduktion",
+        "precipitation": "Nederbörd",
+        "waterLevel": "Vattennivå",
+        "population": "Befolkning"
+      }
+    }
+  },
+  "municipality": {
+    "population": {
+      "title": "Befolkningsutveckling",
+      "subtitle": "{municipality} · {from}–{to}",
+      "seriesName": "Befolkning",
+      "inhabitants": "invånare",
+      "latest": "Befolkning {year}",
+      "changeSince": "Förändring sedan {year}",
+      "yearlyChange": "Genomsnittlig förändring",
+      "perYear": "per år",
+      "loading": "Hämtar data...",
+      "noData": "Ingen befolkningsdata tillgänglig",
+      "error": "Kunde inte hämta befolkningsdata",
+      "source": "Källa: SCB, folkmängd 31 december respektive år."
+    }
   }
 }

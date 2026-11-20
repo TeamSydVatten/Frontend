@@ -11,10 +11,12 @@ type PropsType = {
   id: string;
   mode?: "single" | "multiple" | "range" | "time";
   onChange?: Hook | Hook[];
-  defaultDate?: DateOption;
+  defaultDate?: DateOption | DateOption[];
   label?: string;
   placeholder?: string;
   className?: string;
+  /** Text mellan start- och slutdatum i range-läge, t.ex. " – " */
+  rangeSeparator?: string;
 };
 
 export default function DatePicker({
@@ -25,6 +27,7 @@ export default function DatePicker({
   defaultDate,
   placeholder,
   className,
+  rangeSeparator,
 }: PropsType) {
   useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {
@@ -34,6 +37,7 @@ export default function DatePicker({
       dateFormat: "Y-m-d",
       defaultDate,
       onChange,
+      ...(rangeSeparator && { locale: { rangeSeparator } }),
       prevArrow:
         '<svg class="stroke-current rtl:rotate-180" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 15L7.5 10L12.5 5" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
       nextArrow:
@@ -45,7 +49,7 @@ export default function DatePicker({
         flatPickr.destroy();
       }
     };
-  }, [mode, onChange, id, defaultDate]);
+  }, [mode, onChange, id, defaultDate, rangeSeparator]);
 
   return (
     <div>

@@ -1,15 +1,12 @@
-import Label from '@/components/form/Label'
+import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import LineChartOne from '@/components/charts/line/LineChartOne'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
-import FlowChartMunicipality from '@/components/SydvattenKPI/FlowChartMunicipality'
-import CompareBarChart from '@/components/SydvattenKPI/CompareBarChart'
-import { municipalityById } from '@/data/municipalities'
+import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
 
 const Malmo = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
-      <Label><h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Malmö</h4> </Label>
+      <PageBreadcrumb pageTitle='Malmö - översikt'/>
       <ComponentCard title="Kommunvy - förklaring" >
        <DescriptionOfData description='Varje kommun ska visa olika saker:'/>
        <a href="https://github.com/TeamSydVatten/Frontend/issues/19"
@@ -26,6 +23,7 @@ const Malmo = () => {
             
        </ComponentCard>
 
+      <PopulationTrendChart municipality="Malmö" />
     </div>
   )
 }

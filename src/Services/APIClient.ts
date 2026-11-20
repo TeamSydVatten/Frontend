@@ -69,6 +69,11 @@ const fetchAPI = {
     return get<PopulationResponse>("/population/data/latest");
   },
 
+  /** Befolkning per år (från SCB) för en kommun, t.ex. "Malmö" */
+  getPopulationByMunicipality(municipality: string) {
+    return get<PopulationResponse>(`/population/municipality/${encodeURIComponent(municipality)}`);
+  },
+
   getFlowByMunicipality(municipality: string){
     return get(`/flow/municipality/${encodeURIComponent(municipality)}`)}
   ,

@@ -1,63 +1,42 @@
 import { useNavigate } from "react-router";
-import { IoWater, IoWaterOutline } from "react-icons/io5";
-import { Md12Mp, MdElectricBolt, MdLocationCity, MdMap, MdOutlineElectricBolt, MdOutlineLocationCity, MdOutlineMap } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
 import Button from "@/components/ui/button/Button";
+import { navItems } from "@/layout/navItems";
+import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 
-type LinkItem = { label: string; to: string; icon: React.ReactNode };
-type LinkGroup = { title: string; links: LinkItem[] };
-
-const groups: LinkGroup[] = [
-  {
-    title: "Översikter",
-    links: [
-      { label: "Vombsjön - Översikt", to: "/vomb", icon: <IoWaterOutline className="size-5" /> },
-      { label: "Ringsjön - Översikt", to: "/ringsjon", icon: <IoWaterOutline className="size-5" /> },
-      { label: "Bolmen - Översikt", to: "/bolmen", icon: <IoWaterOutline className="size-5" /> },
-    ],
-  },
-  {
-    title: "Kommuner",
-    links: [
-      { label: "Kartöversikt", to: "/karta", icon: <MdOutlineMap className="size-5" /> },
-      { label: "Malmö", to: "/kommun/malmo", icon: <MdOutlineLocationCity className="size-5" /> },
-      { label: "Lund", to: "/kommun/lund", icon: <MdOutlineLocationCity className="size-5" /> },
-    ],
-  },
-  {
-    title: "Elförbrukning",
-    links: [
-      { label: "Elöversikt", to: "/el", icon: <MdOutlineElectricBolt className="size-5" /> },
-      { label: "Alla mätare (El)", to: "/el_alla", icon: <MdOutlineElectricBolt className="size-5" /> },
-    ],
-  },
-];
-
+// Snabblänkarna byggs från samma lista som sidomenyn (src/layout/navItems.tsx),
+// så nya sidor i menyn dyker upp här automatiskt.
 export default function Startsida() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const label = (key: string | undefined, fallback: string) =>
+    key ? t(`sidebar.items.${key}`, { defaultValue: fallback }) : fallback;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white/90">Startsida</h1>
-
-      {groups.map((group) => (
-        <ComponentCard key={group.title} title={group.title}>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
-            {group.links.map((l) => (
-              <div key={l.to}>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  startIcon={l.icon}
-                  onClick={() => navigate(l.to)}
-                >
-                  {l.label}
-                </Button>
-              </div>
-            ))}
-          </div>
-        </ComponentCard>
-      ))}
+      <PageBreadcrumb pageTitle="Startsida"/>
+      {navItems
+        .filter((group) => group.subItems?.length)
+        .map((group) => (
+          <ComponentCard key={group.key ?? group.name} title={label(group.key, group.name)}>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+              {group.subItems!.map((item) => (
+                <div key={item.path}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    startIcon={<span className="text-lg">{group.icon}</span>}
+                    onClick={() => navigate(item.path)}
+                  >
+                    {label(item.key, item.name)}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </ComponentCard>
+        ))}
     </div>
   );
 }

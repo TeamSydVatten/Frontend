@@ -2,10 +2,9 @@ import { locationById } from '@/data/locations'
 import LatestFlowCard from '@/components/sydvattenKPI/LatestFlowCard'
 import VattenNivaCard from '@/components/sydvattenKPI/VattenNivaCard'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import LineChartOne from '@/components/charts/line/LineChartOne'
-import ElectricityPerRecievedWater from '@/components/sydvattenKPI/ElectricityPerRecievedWater'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 
 const Ringsjon = () => {
   const thisLocation = locationById.ringsjon
@@ -13,7 +12,7 @@ const Ringsjon = () => {
     
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Ringsjön | Sydvatten" description="Översikt av ringsjöns mätningar" />
-      <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Ringsjön</h4> 
+      <PageBreadcrumb pageTitle='Ringsjön'/>
       <div><ComponentCard title="Ej implementerat" >
        <DescriptionOfData description='Hur SJÖAR ska se ut benämns här:'/>
        <a href="https://github.com/TeamSydVatten/Frontend/issues/23"
@@ -29,7 +28,6 @@ const Ringsjon = () => {
                    <VattenNivaCard location ="ring"/>
                   
                    <LatestFlowCard location ={locationById.ringsjon} />
-                    <ElectricityPerRecievedWater location="ringsjon"/>
             </div>
         </div>
     
