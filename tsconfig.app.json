@@ -20,7 +20,7 @@
 
     /* Path Aliases & Resolution */
     "paths": {
-      "@/*": ["./src/*"]
+    "@/*": ["./src/*"]
     },
 
     /* Linting */
