@@ -1,6 +1,6 @@
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import SkaneOverview from '@/components/SydvattenKPI/SkaneOverview'
-import MunicipalityWaterUsageTable from '@/components/SydvattenKPI/Topplista/Hiscores'
+import MunicipalityWaterUsageTable from '@/components/SydvattenKPI/Hiscores'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 

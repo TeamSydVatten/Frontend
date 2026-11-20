@@ -1,7 +1,17 @@
-// src/components/SydvattenKPI/MunicipalityDetails.tsx
 import type { Municipality } from "@/types/municipality";
+import { useMunicipalityStats } from "@/hooks/useMunicipalityStats";
+import { CURRENT_YEAR, YEARS } from "@/services/municipalityData";
 
 const nf = new Intl.NumberFormat("sv-SE");
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// Antal dagar hittills i år (inklusive i dag)
+function daysSoFarThisYear() {
+  const now = new Date();
+  const start = Date.UTC(now.getFullYear(), 0, 1);
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((today - start) / MS_PER_DAY) + 1;
+}
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
@@ -17,6 +27,8 @@ export default function MunicipalityDetails({
 }: {
   municipality?: Municipality;
 }) {
+  const { stats, loading, error } = useMunicipalityStats();
+
   if (!municipality) {
     return (
       <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -25,13 +37,18 @@ export default function MunicipalityDetails({
     );
   }
 
-  // Beräknade värden, detta ska vara från API senare
-  const litersPerPersonPerDay =
-    (municipality.totalConsumption * 1000) / municipality.population / 365;
+  if (loading) return <p className="text-sm text-gray-500">Laddar...</p>;
+  if (error) return <p className="text-sm text-red-500">{error}</p>;
 
-  const years = Object.entries(municipality.lastfiveyears)
-    .map(([year, value]) => ({ year: Number(year), value }))
-    .sort((a, b) => b.year - a.year); // nyaste först
+  const s = stats[municipality.id];
+const thisYear = s?.flowByYear?.[CURRENT_YEAR];
+const lossThisYear = s?.lossByYear?.[CURRENT_YEAR];
+
+  // Per person och dygn, baserat på pågående år hittills
+  const litersPerPersonPerDay =
+    thisYear && s?.population
+      ? (thisYear * 1000) / s.population / daysSoFarThisYear()
+      : null;
 
   return (
     <div>
@@ -43,18 +60,25 @@ export default function MunicipalityDetails({
       </p>
 
       <div className="mt-4 divide-y divide-gray-200 dark:divide-gray-800">
-        <Row label="Befolkning" value={nf.format(municipality.population)} />
         <Row
-          label="Totalt mottaget vatten i år"
-          value={`${nf.format(municipality.totalConsumption)} m³`}
+          label="Befolkning"
+          value={s?.population ? nf.format(s.population) : "–"}
         />
         <Row
-          label="Beräknad vattenförlust i år"
-          value={`${nf.format(municipality.waterLoss)} m³/år`}
+          label="Totalt mottaget vatten i år"
+          value={thisYear ? `${nf.format(Math.round(thisYear))} m³` : "–"}
+        />
+        <Row
+          label="Beräknad vattenförlust hittills i år"
+          value={lossThisYear ? `${nf.format(Math.round(lossThisYear))} m³` : "–"}
         />
         <Row
           label="Förbrukning per person"
-          value={`${Math.round(litersPerPersonPerDay)} l/dag`}
+          value={
+            litersPerPersonPerDay
+              ? `${Math.round(litersPerPersonPerDay)} l/dag`
+              : "–"
+          }
         />
       </div>
 
@@ -62,9 +86,16 @@ export default function MunicipalityDetails({
         Mottaget vatten de senaste 5 åren
       </h4>
       <div className="mt-2 divide-y divide-gray-200 dark:divide-gray-800">
-        {years.map(({ year, value }) => (
-          <Row key={year} label={String(year)} value={`${nf.format(value)} m³`} />
-        ))}
+        {YEARS.map((year) => {
+          const value = s?.flowByYear[year];
+          return (
+            <Row
+              key={year}
+              label={year === CURRENT_YEAR ? `${year} (hittills)` : String(year)}
+              value={value ? `${nf.format(Math.round(value))} m³` : "–"}
+            />
+          );
+        })}
       </div>
     </div>
   );
