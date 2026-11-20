@@ -1,12 +1,13 @@
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb';
 
 const Ringsjoverket = () => {
   return (
     <div className="grid grid-cols-1 gap-4 md:gap-6">
       <PageMeta title="Ringsjöverket | Sydvatten" description="Översikt av Ringsjöverkets mätningar" />
-      <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">Ringsjöverket</h4>
+      <PageBreadcrumb pageTitle='Ringsjöverket'/>
 
       <ComponentCard title="Hur verk ska se ut" >
        <DescriptionOfData description='Här ska det ligga en jämförelsevy som benämns i issue:'/>

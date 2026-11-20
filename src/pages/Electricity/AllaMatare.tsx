@@ -19,13 +19,15 @@ export const AllaMatare = () => {
   if (error) return <p>Kunde inte hämta data: {error}</p>;
 
   return (
+    <div><PageBreadcrumb pageTitle="Alla mätare"/>
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      <PageBreadcrumb pageTitle="Alla mätare"/>
+      
       {stations.map((station) => (
         <ComponentCard key={station} title={station}>
           <ElectricityPerRecievedWater location={station} />
         </ComponentCard>
       ))}
+    </div>
     </div>
   );
 };

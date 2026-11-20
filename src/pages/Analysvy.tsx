@@ -4,6 +4,7 @@ import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import KpiSelector from '@/components/SydvattenKPI/analysis/KpiSelector'
 import { defaultAnalysisSelection, type AnalysisSelection } from '@/components/SydvattenKPI/analysis/kpiOptions'
+import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 
 const Analysvy = () => {
   // Valen ligger här så att diagrammet (issue #11) kan använda samma state
@@ -12,8 +13,7 @@ const Analysvy = () => {
   return (
     <div className='grid grid-cols-1 gap-4'>
         <PageMeta title="Analys | Sydvatten" description="Kombineringsvy för KPIer" />
-    <h4 className="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90">KPI-jämförelser</h4>
-
+    <PageBreadcrumb pageTitle='Analysvy'/>
     <KpiSelector value={selection} onChange={setSelection} />
 
     <ComponentCard title="Hur analys ska se ut" >
