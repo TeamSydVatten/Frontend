@@ -11,6 +11,19 @@ import {
   MdInfoOutline,
 } from "react-icons/md";
 import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
+import DateRangePicker, {
+  type DateRangeValue,
+} from "@/components/SydvattenKPI/DateRangePicker";
+import { isoDate, useLatestPowerDate } from "@/hooks/useLatestPowerDate";
+
+// /power/period skickar timvärden, så längre perioder än ett år blir tunga
+const MAX_PERIOD_DAYS = 365;
+const POWER_PRESETS = [
+  { labelKey: "dateRange.presets.week", days: 7 },
+  { labelKey: "dateRange.presets.month", days: 30 },
+  { labelKey: "dateRange.presets.quarter", days: 90 },
+  { labelKey: "dateRange.presets.year", days: 365 },
+];
 
 interface PowerRow {
   location: string;
@@ -97,20 +110,55 @@ function buildDailySeries(
 
 export default function ElOverview() {
   const [powerData, setPowerData] = useState<PowerRow[]>([]);
-  const [period, setPeriod] = useState<7 | 30>(7);
+  const latestPowerDate = useLatestPowerDate();
+  const [pickedRange, setPickedRange] = useState<DateRangeValue | null>(null);
   const [selectedFacility, setSelectedFacility] = useState("all");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Standard: senaste 7 dagarna med data
+  const range = useMemo<DateRangeValue | null>(
+    () =>
+      pickedRange ??
+      (latestPowerDate
+        ? {
+            from: new Date(latestPowerDate.getTime() - 6 * DAY_MS),
+            to: latestPowerDate,
+          }
+        : null),
+    [pickedRange, latestPowerDate],
+  );
+
+  // Antal dagar i vald period
+  const period = range
+    ? Math.round((range.to.getTime() - range.from.getTime()) / DAY_MS) + 1
+    : 7;
+
+  // Begränsa egna perioder till ett år (timdata)
+  const handleRangeChange = (next: DateRangeValue) => {
+    const days = Math.round((next.to.getTime() - next.from.getTime()) / DAY_MS) + 1;
+    setPickedRange(
+      days > MAX_PERIOD_DAYS
+        ? { from: new Date(next.to.getTime() - (MAX_PERIOD_DAYS - 1) * DAY_MS), to: next.to }
+        : next,
+    );
+  };
+
   useEffect(() => {
+    if (!range) return;
     let cancelled = false;
 
     const load = async () => {
       try {
         setLoading(true);
 
-        const response = (await fetchAPI.getPowerData()) as PowerResponse;
+        // Hämta även lika lång period innan, för jämförelsen
+        const from = new Date(range.from.getTime() - period * DAY_MS);
+        const response = (await fetchAPI.getPowerPeriod(
+          isoDate(from),
+          isoDate(range.to),
+        )) as PowerResponse;
 
         if (!Array.isArray(response.data)) {
           throw new Error("Ogiltigt API Svar");
@@ -152,7 +200,7 @@ export default function ElOverview() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [range, period]);
 
   //Här kommer filtrering av alla registrerade anläggningar
 
@@ -165,15 +213,11 @@ export default function ElOverview() {
     return powerData.filter((row) => names.has(row.location));
   }, [powerData]);
 
-  //Hitta senaste mätningar
-
-  const latestTime = useMemo(() => {
-    return recognizedData.reduce(
-      (latest, row) => Math.max(latest, Date.parse(row.timestamp)),
-      -Infinity,
-    );
-  }, [recognizedData]);
-  const hasData = Number.isFinite(latestTime);
+  // Periodens sista dag (mitt på dagen, så tidszonen inte flyttar datumet)
+  const latestTime = range
+    ? Date.parse(`${isoDate(range.to)}T12:00:00Z`)
+    : -Infinity;
+  const hasData = Number.isFinite(latestTime) && recognizedData.length > 0;
 
   const { currentRows, previousRows } = useMemo(() => {
     if (!hasData) {
@@ -335,30 +379,21 @@ export default function ElOverview() {
           pumpstationer.
         </p>
 
-        {hasData && (
+        {latestPowerDate && (
           <p className="mt-2 text-xs text-gray-400">
-            Senaste tillgängliga mätning:{" "}
-            {new Date(latestTime).toLocaleString("sv-SE")}
+            Senaste tillgängliga mätning: {isoDate(latestPowerDate)}
           </p>
         )}
       </header>
 
-      <div className="flex gap-2">
-        {([7, 30] as const).map((days) => (
-          <button
-            key={days}
-            type="button"
-            onClick={() => setPeriod(days)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium ${
-              period === days
-                ? "bg-amber-500 text-gray-950"
-                : "border border-gray-200 bg-white text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
-            }`}
-          >
-            {days} dagar
-          </button>
-        ))}
-      </div>
+      {range && (
+        <DateRangePicker
+          value={range}
+          onChange={handleRangeChange}
+          maxDate={latestPowerDate ?? undefined}
+          presets={POWER_PRESETS}
+        />
+      )}
 
       {error && (
         <p role="alert" className="text-sm text-red-500">
@@ -382,7 +417,7 @@ export default function ElOverview() {
                 ? `${formatUsage(totalUsage)} kWh`
                 : "—"
           }
-          description={`Senaste ${period} kalenderdagarna`}
+          description={`${period} dagar i vald period`}
         />
 
         <SummaryCard

@@ -24,6 +24,9 @@ export default function ElectricityLineChart({
     (point) => point.usage !== null && Number.isFinite(point.usage),
   );
 
+  // Långa perioder: tunnare linje, inga punkter/animation och månad + år på axeln
+  const isLong = data.length > 60;
+
   // Diagrammets inställningar
   const options: ApexOptions = {
     chart: {
@@ -36,17 +39,20 @@ export default function ElectricityLineChart({
       zoom: {
         enabled: false,
       },
+      animations: {
+        enabled: !isLong,
+      },
     },
 
     colors: [electricityColors.line],
 
     stroke: {
       curve: "smooth",
-      width: 3,
+      width: isLong ? 1.5 : 3,
     },
 
     markers: {
-      size: 4,
+      size: isLong ? 0 : 4,
       colors: [electricityColors.marker],
       strokeColors: electricityColors.markerBorder,
       strokeWidth: 2,
@@ -59,7 +65,7 @@ export default function ElectricityLineChart({
     xaxis: {
       type: "datetime",
       labels: {
-        format: "dd MMM",
+        format: data.length > 120 ? "MMM yyyy" : "dd MMM",
         datetimeUTC: false,
         style: {
           colors: "#9CA3AF",

@@ -2,6 +2,7 @@ import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCru
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
+import FlowPeriodChart from '@/components/SydvattenKPI/FlowPeriodChart'
 
 const Malmo = () => {
   return (
@@ -24,6 +25,7 @@ const Malmo = () => {
        </ComponentCard>
 
       <PopulationTrendChart municipality="Malmö" />
+      <FlowPeriodChart municipality="Malmö" />
     </div>
   )
 }
