@@ -936,6 +936,27 @@
       "noData": "Ingen befolkningsdata tillgänglig",
       "error": "Kunde inte hämta befolkningsdata",
       "source": "Källa: SCB, folkmängd 31 december respektive år."
+    },
+    "flow": {
+      "title": "Vattenflöde över tid",
+      "subtitle": "{municipality} · nettoflöde per dygn (PLUS − MINUS)",
+      "seriesName": "Nettoflöde",
+      "average": "Medelflöde i perioden",
+      "volume": "Total volym i perioden",
+      "loading": "Hämtar data...",
+      "noData": "Ingen flödesdata för vald period",
+      "error": "Kunde inte hämta flödesdata",
+      "source": "Källa: Sydvattens flödesmätare, dygnsmedel."
+    }
+  },
+  "dateRange": {
+    "label": "Välj period",
+    "presets": {
+      "week": "7 dagar",
+      "month": "30 dagar",
+      "quarter": "90 dagar",
+      "year": "1 år",
+      "fiveYears": "5 år"
     }
   }
 }

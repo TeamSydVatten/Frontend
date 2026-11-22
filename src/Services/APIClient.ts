@@ -94,8 +94,17 @@ const fetchAPI = {
     return get(`/precipitation/lake/${encodeURIComponent(name)}`)
   },
 
+  // OBS: skickar ALL eldata (~350 000 rader med 5-årsdatan). Använd hellre getPowerPeriod.
   getPowerData(){
     return get(`/power/data`)
+  },
+
+  /** Elförbrukning per timme och plats för en period. from/to = "YYYY-MM-DD" */
+  getPowerPeriod(fromDate: string, toDate: string) {
+    const qs = new URLSearchParams({ from_date: fromDate, to_date: toDate });
+    return get<{ status: string; count: number; data: { location: string; timestamp: string; usage: number }[] }>(
+      `/power/period?${qs}`,
+    );
   },
 
    getPopulationLatest() {

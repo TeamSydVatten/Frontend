@@ -162,6 +162,65 @@
 }
 
 /*
+  shadcn/ui (aria-nova): färgnamnen som shadcn-komponenterna i
+  src/components/ui/*.tsx använder, kopplade till TailAdmins palett
+  så att de följer vårt tema och mörka läge.
+*/
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-gray-800);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-gray-800);
+  --primary: var(--color-brand-500);
+  --primary-foreground: var(--color-white);
+  --secondary: var(--color-gray-100);
+  --secondary-foreground: var(--color-gray-800);
+  --muted: var(--color-gray-100);
+  --muted-foreground: var(--color-gray-500);
+  --accent: var(--color-brand-50);
+  --accent-foreground: var(--color-brand-600);
+  --destructive: var(--color-error-500);
+  --border: var(--color-gray-200);
+  --input: var(--color-gray-300);
+  --ring: var(--color-brand-300);
+}
+
+.dark {
+  --background: var(--color-gray-900);
+  --foreground: rgb(255 255 255 / 0.9);
+  --popover: var(--color-gray-900);
+  --popover-foreground: rgb(255 255 255 / 0.9);
+  --secondary: var(--color-gray-800);
+  --secondary-foreground: rgb(255 255 255 / 0.9);
+  --muted: var(--color-gray-800);
+  --muted-foreground: var(--color-gray-400);
+  --accent: rgb(70 95 255 / 0.15);
+  --accent-foreground: var(--color-brand-300);
+  --border: var(--color-gray-800);
+  --input: var(--color-gray-700);
+  --ring: var(--color-brand-800);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
   looks the same as it did with Tailwind CSS v3.

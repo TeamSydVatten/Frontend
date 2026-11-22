@@ -3,6 +3,7 @@ import React from 'react'
 import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
+import FlowPeriodChart from '@/components/SydvattenKPI/FlowPeriodChart'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 const Lund = () => {
   return (
@@ -14,6 +15,7 @@ const Lund = () => {
       
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:gap-6">
         <PopulationTrendChart municipality="Lund" />
+        <FlowPeriodChart municipality="Lund" />
       </div>
       
     </div>
