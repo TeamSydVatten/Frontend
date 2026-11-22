@@ -1,14 +1,21 @@
 import { IoWater } from "react-icons/io5";
 import type { Location } from "@/types/location";
+import type { DailyFlowRow } from "@/types/APItypes";
 import flowAPI from "@/Services/APIClient";
-import { meterWeight } from "@/config/meters";
 import { useState, useEffect } from "react";
 import MetricCard from "./MetricCard";
 
-interface FlowRow {
-  meter_id: string;
-  timestamp: string;
-  water_flow: number;
+// Platsens meterId -> kommun i backend (flow_meters.municipality)
+const FLOW_MUNICIPALITY: Record<string, string> = {
+  lund: "Lund",
+  eslov: "Eslöv",
+};
+
+// Hur långt bak vi hämtar dygnsvärden (datan slutar inte alltid idag)
+const LOOKBACK_DAYS = 365;
+
+function isoDate(date: Date) {
+  return date.toISOString().slice(0, 10);
 }
 
 export default function LatestFlowCard({ location }: { location: Location }) {
@@ -16,91 +23,79 @@ export default function LatestFlowCard({ location }: { location: Location }) {
   const [latestDate, setDate] = useState<Date | null>(null);
   const [history, setHistory] = useState<number[]>([]);
   const [change, setChange] = useState<number | undefined>(undefined);
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const json = (await flowAPI.getData()) as { data: FlowRow[] };
 
-        const rows = json.data.filter(
-          (row) =>
-            meterWeight(row.meter_id, location.meterId, row.timestamp) !== 0,
+  useEffect(() => {
+    let cancelled = false;
+
+    const reset = () => {
+      setFlow(null);
+      setDate(null);
+      setHistory([]);
+      setChange(undefined);
+    };
+
+    const load = async () => {
+      const municipality = FLOW_MUNICIPALITY[location.meterId];
+      if (!municipality) {
+        reset();
+        return;
+      }
+
+      try {
+        const today = new Date();
+        const from = new Date(today.getTime() - LOOKBACK_DAYS * 86_400_000);
+
+        // Dagligt medelflöde, netto (PLUS − MINUS) räknat i backend
+        const json = await flowAPI.getMunicipalityDailyFlow(
+          municipality,
+          isoDate(from),
+          isoDate(today),
         );
 
-        // Summera vattenflödet per tidpunkt
-        const grouped = new Map<number, number>();
+        const sorted = (json.data ?? [])
+          .filter((row: DailyFlowRow) => Number.isFinite(Number(row.avg_sum)))
+          .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
-        rows.forEach((row) => {
-          const timestamp = new Date(row.timestamp).getTime();
-          const weight = meterWeight(
-            row.meter_id,
-            location.meterId,
-            row.timestamp,
-          );
-          const value = Number(row.water_flow);
-
-          if (
-            !Number.isFinite(timestamp) ||
-            !Number.isFinite(value) ||
-            !Number.isFinite(weight) ||
-            row.water_flow == null
-          )
-            return;
-
-          grouped.set(
-            timestamp,
-            (grouped.get(timestamp) ?? 0) + weight * value,
-          );
-        });
-
-        // Sortera från äldsta till senaste
-        const sorted = [...grouped.entries()].sort((a, b) => a[0] - b[0]);
-
+        if (cancelled) return;
         if (sorted.length === 0) {
-          setFlow(null);
-          setDate(null);
-          setHistory([]);
-          setChange(undefined);
+          reset();
           return;
         }
 
         const latest = sorted.at(-1)!;
         const previous = sorted.at(-2);
+        const latestValue = Number(latest.avg_sum);
 
-        setFlow(latest[1]);
-        setDate(new Date(latest[0]));
+        setFlow(latestValue);
+        setDate(new Date(latest.date));
+        setHistory(sorted.map((row) => Number(row.avg_sum)));
 
-        setHistory(sorted.map((row) => row[1]));
-
-        if (previous && previous[1] !== 0) {
-          const percentage =
-            ((latest[1] - previous[1]) / Math.abs(previous[1])) * 100;
-
-          setChange(percentage);
-        } else {
-          setChange(undefined);
-        }
+        const previousValue = previous ? Number(previous.avg_sum) : 0;
+        setChange(
+          previous && previousValue !== 0
+            ? ((latestValue - previousValue) / Math.abs(previousValue)) * 100
+            : undefined,
+        );
       } catch (err) {
-        console.error(err);
-        setFlow(null);
-        setDate(null);
-        setHistory([]);
-        setChange(undefined);
+        console.error("Vattenflöde API-fel:", err);
+        if (!cancelled) reset();
       }
     };
 
     load();
+    return () => {
+      cancelled = true;
+    };
   }, [location.meterId]);
+
   return (
     <MetricCard
       title="Vattenflöde"
       value={flow}
-      unit="liter/sekund"
+      unit="liter/sekund (dygnsmedel)"
       date={
         latestDate
-          ? latestDate.toLocaleString("sv-SE", {
-              dateStyle: "short",
-              timeStyle: "short",
-            })
+          ? latestDate.toLocaleDateString("sv-SE", { dateStyle: "short" })
           : null
       }
       history={history}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMunicipalityStats, type MunicipalityStats } from "@/services/municipalityData";
+import { getMunicipalityStats, type MunicipalityStats } from "@/Services/municipalityData";
 
 export function useMunicipalityStats() {
   const [stats, setStats] = useState<Record<string, MunicipalityStats>>({});

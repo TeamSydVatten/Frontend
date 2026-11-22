@@ -54,3 +54,19 @@ export type YearlyFlowResponse = {
   }[];
 };
 
+
+// /flow/period/municipality/{kommun}/daily – dagligt medelflöde i L/s
+export interface DailyFlowRow {
+  date: string; // "2026-09-30T00:00:00+02:00"
+  avg_pos: number;
+  avg_neg: number;
+  avg_sum: number; // netto = PLUS − MINUS
+}
+
+export interface DailyFlowResponse {
+  status: string;
+  municipality: string;
+  from_date: string;
+  to_date: string;
+  data: DailyFlowRow[];
+}

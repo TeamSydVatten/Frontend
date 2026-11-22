@@ -2,6 +2,7 @@ import type { LakeLevelResponse } from "@/types/APItypes";
 import type { NetFlowResponse } from "@/types/APItypes";
 import type { PopulationResponse } from "@/types/APItypes";
 import type { YearlyFlowResponse } from "@/types/APItypes";
+import type { DailyFlowResponse } from "@/types/APItypes";
 
 const BASE_URL = "http://localhost:8000";
 
@@ -17,32 +18,64 @@ async function get<T>(path: string): Promise<T> {
 }
 
 
+// Backendens /flow/sum/... returnerar liter (L/s × 3600 per timme, summerat).
+// Frontend räknar i m³, så vi delar med 1000 här.
+const LITERS_PER_M3 = 1000;
+
+type FlowTotals = { total_pos: number; total_neg: number; total_sum: number };
+
+function litersToM3<T extends FlowTotals>(row: T): T {
+  return {
+    ...row,
+    total_pos: Number(row.total_pos) / LITERS_PER_M3,
+    total_neg: Number(row.total_neg) / LITERS_PER_M3,
+    total_sum: Number(row.total_sum) / LITERS_PER_M3,
+  };
+}
+
 const fetchAPI = {
+  // OBS: backend returnerar max 1000 rader (LIMIT 1000)
   getData() {
     return get("/flow/data");
   },
 
-  getMunicipality(name : string) {
-    return get(`/flow/municipality/${encodeURIComponent(name)}`);
+  // Alla timvärden för kommunens mätare (kan bli mycket data)
+  getMunicipality(name: string) {
+    return get(`/flow/municipality/${encodeURIComponent(name)}/hourly`);
+  },
+
+  /**
+   * Dagligt medelflöde (L/s) för en kommun: avg_pos, avg_neg och
+   * avg_sum (netto = PLUS − MINUS). from/to = "YYYY-MM-DD".
+   */
+  getMunicipalityDailyFlow(municipality: string, fromDate: string, toDate: string) {
+    const qs = new URLSearchParams({ from_date: fromDate, to_date: toDate });
+    return get<DailyFlowResponse>(
+      `/flow/period/municipality/${encodeURIComponent(municipality)}/daily?${qs}`,
+    );
   },
 
   getAllMeters() {
-    return get(`/flow/meters/`)
+    return get(`/flow/meters`);
   },
 
-  getNetFlowYearly(fromYear: number, toYear: number) {
-  const qs = new URLSearchParams({
-    from_year: String(fromYear),
-    to_year: String(toYear),
-  });
-  return get<YearlyFlowResponse>(`/flow/net/municipalities/yearly?${qs}`);
+  /** Nettoflöde per kommun och år, i m³ */
+  async getNetFlowYearly(fromYear: number, toYear: number) {
+    const qs = new URLSearchParams({
+      from_year: String(fromYear),
+      to_year: String(toYear),
+    });
+    const res = await get<YearlyFlowResponse>(`/flow/sum/yearly?${qs}`);
+    return { ...res, data: res.data.map(litersToM3) };
   },
 
-  getNetFlow(municipality: string, fromDate: string, toDate: string) {
+  /** Nettoflöde för en kommun under en period, i m³ */
+  async getNetFlow(municipality: string, fromDate: string, toDate: string) {
     const qs = new URLSearchParams({ from_date: fromDate, to_date: toDate });
-    return get<NetFlowResponse>(
-      `/flow/net/municipality/${encodeURIComponent(municipality)}?${qs}`,
+    const res = await get<NetFlowResponse>(
+      `/flow/sum/period/municipality/${encodeURIComponent(municipality)}?${qs}`,
     );
+    return { ...res, data: res.data.map(litersToM3) };
   },
 
   getAllPopulations() {
@@ -74,9 +107,9 @@ const fetchAPI = {
     return get<PopulationResponse>(`/population/municipality/${encodeURIComponent(municipality)}`);
   },
 
-  getFlowByMunicipality(municipality: string){
-    return get(`/flow/municipality/${encodeURIComponent(municipality)}`)}
-  ,
+  getFlowByMunicipality(municipality: string) {
+    return get(`/flow/municipality/${encodeURIComponent(municipality)}/hourly`);
+  },
   
   // Fler endpoints lägger du bara till här:
   // getData(name: string) { return get(`/flow/data/${encodeURIComponent(name)}`); },

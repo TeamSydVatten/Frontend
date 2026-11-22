@@ -6,7 +6,7 @@ if (typeof window !== "undefined") {
     jsVectorMap;
 }
 
-import "../../sydvattenKPI/skane-map";
+import "../../SydvattenKPI/skane-map";
 export type VectorMapMarker = {
   name?: string;
   coords?: [number, number];

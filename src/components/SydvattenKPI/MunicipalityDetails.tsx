@@ -1,6 +1,6 @@
 import type { Municipality } from "@/types/municipality";
 import { useMunicipalityStats } from "@/hooks/useMunicipalityStats";
-import { CURRENT_YEAR, YEARS } from "@/services/municipalityData";
+import { CURRENT_YEAR, YEARS } from "@/Services/municipalityData";
 
 const nf = new Intl.NumberFormat("sv-SE");
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
