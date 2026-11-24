@@ -119,7 +119,10 @@ const fetchAPI = {
   getFlowByMunicipality(municipality: string) {
     return get(`/flow/municipality/${encodeURIComponent(municipality)}/hourly`);
   },
-  
+  getTemperaturByStaion(station: string) {
+    return get(`/temperature/station/${encodeURIComponent(station)}`);
+  },
+
   // Fler endpoints lägger du bara till här:
   // getData(name: string) { return get(`/flow/data/${encodeURIComponent(name)}`); },
 };
