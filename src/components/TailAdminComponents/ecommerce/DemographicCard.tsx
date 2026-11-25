@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
-import CountryMap from "../../SydvattenKPI/SkaneMap";
+import CountryMap from "../../sydvatten/SkaneMap";
 
 export default function DemographicCard() {
   const { t } = useTranslation("ecommerce.demographic");

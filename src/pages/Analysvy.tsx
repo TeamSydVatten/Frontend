@@ -1,9 +1,9 @@
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
 import { useState } from 'react'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
-import KpiSelector from '@/components/SydvattenKPI/analysis/KpiSelector'
-import { defaultAnalysisSelection, type AnalysisSelection } from '@/components/SydvattenKPI/analysis/kpiOptions'
+import DescriptionOfData from '@/components/sydvatten/DescriptionOfData'
+import KpiSelector from '@/components/sydvatten/analysis/KpiSelector'
+import { defaultAnalysisSelection, type AnalysisSelection } from '@/components/sydvatten/analysis/kpiOptions'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 
 const Analysvy = () => {

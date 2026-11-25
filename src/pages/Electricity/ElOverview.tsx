@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { MdElectricBolt } from "react-icons/md";
-import ElectricityConsum from "@/components/SydvattenKPI/ElectricityConsum";
+import ElectricityConsum from "@/components/sydvatten/ElectricityConsum";
 import { electricityDataById } from "@/data/electricityData";
 import fetchAPI from "@/Services/APIClient";
-import ElectricityLineChart from "@/components/SydvattenKPI/ElectricityLineChart";
+import ElectricityLineChart from "@/components/sydvatten/ElectricityLineChart";
 import {
   MdTrendingDown,
   MdTrendingUp,
@@ -13,7 +13,7 @@ import {
 import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 import DateRangePicker, {
   type DateRangeValue,
-} from "@/components/SydvattenKPI/DateRangePicker";
+} from "@/components/sydvatten/DateRangePicker";
 import { isoDate, useLatestPowerDate } from "@/hooks/useLatestPowerDate";
 
 // /power/period skickar timvärden, så längre perioder än ett år blir tunga

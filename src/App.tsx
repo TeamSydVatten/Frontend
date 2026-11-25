@@ -21,6 +21,7 @@ import { AllaMatare } from "./pages/Electricity/AllaMatare";
 import Analysvy from "./pages/Analysvy";
 import VerkOverview from "./pages/Verk/VerkOverview";
 import FlowOverview from "./pages/FlowOverView";
+import Production from "./pages/ProductionDelivery";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="/analysvy" element={<Analysvy/>}/>
             <Route path="/verkoverview" element={<VerkOverview/>}/>
             <Route path="/flowoverview" element={<FlowOverview/>}/>
+            <Route path="/production" element={<Production/>}/>
             
             {/* Others Page */}
             <Route path="/blank" element={<Blank />} />

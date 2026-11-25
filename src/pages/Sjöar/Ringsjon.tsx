@@ -1,9 +1,9 @@
 import { locationById } from '@/data/locations'
-import LatestFlowCard from '@/components/SydvattenKPI/LatestFlowCard'
-import VattenNivaCard from '@/components/SydvattenKPI/VattenNivaCard'
+import LatestFlowCard from '@/components/sydvatten/LatestFlowCard'
+import VattenNivaCard from '@/components/sydvatten/VattenNivaCard'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'
-import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import DescriptionOfData from '@/components/sydvatten/DescriptionOfData'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 
 const Ringsjon = () => {
