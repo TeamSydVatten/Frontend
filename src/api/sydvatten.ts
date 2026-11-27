@@ -19,7 +19,7 @@ async function getData<T>(path: string): Promise<T[]> {
   return body.data;
 }
 
-export const PLANTS = ["Vombverket", "RingsjÃ¶verket"];
+export const PLANTS = ["Vombverket", "Ringsjöverket"];
 
 // Average flow per plant and day, in L/s.
 export interface DailyProductionRow {

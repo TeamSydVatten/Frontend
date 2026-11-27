@@ -16,6 +16,8 @@ import SeasonChart from "@/components/sydvatten/production/SeasonChart";
 import TrendForecastChart from "@/components/sydvatten/production/TrendForecastChart";
 import YearComparisonChart from "@/components/sydvatten/production/YearComparisonChart";
 import { ALL_PLANTS, completeYears, monthlyProduction } from "@/utils/production";
+import PageMeta from "@/components/TailAdminComponents/common/PageMeta";
+import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";
 
 // Fetch everything from this date. The API only returns days that have data.
 const FROM_DATE = "2000-01-01";
@@ -30,7 +32,7 @@ export default function ProductionDelivery() {
   const [data, setData] = useState<PageData | null>(null);
   const [error, setError] = useState("");
   const [selectedMunicipality, setSelectedMunicipality] = useState(ALL_PLANTS);
-
+  
   // All charts use the same data, so it is fetched once for the whole page.
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
@@ -73,7 +75,10 @@ export default function ProductionDelivery() {
   const municipalities = [...new Set(data.delivery.map((row) => row.municipality))].sort();
 
   return (
+    
     <div className="space-y-6">
+      <PageMeta title="Verköversikt | Sydvatten" description="Jämförelsevy av produktionen för olika verk" />
+      <PageBreadcrumb pageTitle='Produktionsöversikt'/>
       <ComponentCard
         title="Produktion per verk"
         desc="m³ per månad. Bara hela månader visas."
