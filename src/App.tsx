@@ -21,7 +21,7 @@ import { AllaMatare } from "./pages/Electricity/AllaMatare";
 import Analysvy from "./pages/Analysvy";
 import VerkOverview from "./pages/Verk/VerkOverview";
 import FlowOverview from "./pages/FlowOverView";
-import Production from "./pages/ProductionDelivery";
+import Production from "./pages/Verk/ProductionDelivery";
 
 export default function App() {
   return (

@@ -1,4 +1,5 @@
-import { MultiApiLineChart, type SeriesSource } from "@/components/multi-api-line-chart"
+import { MultiApiLineChart } from ".@/multi-api-line-chart"
+import type { SeriesSource } from ".@/multi-api-line-chart"
 
 type ExpensesJson = { data: { day: string; amount: number }[] }
 type SignupsJson = { results: { timestamp: string; count: number }[] }
@@ -15,6 +16,6 @@ const sources: SeriesSource<any>[] = [
   },
 ]
 
-export default function TestPage() {
+export default function TestPqge() {
   return <MultiApiLineChart title="Daily metrics" sources={sources} refreshInterval={30_000} />
 }
