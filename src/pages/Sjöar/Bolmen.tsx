@@ -63,11 +63,11 @@ const Bolmen = () => {
   const [level, setLevel] = useState<ChartPoint[]>([]);
   const [precip, setPrecip] = useState<ChartPoint[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  // Standard: idag och sex dagar bakåt (7 dagar)
-  const [range, setRange] = useState<DateRangeValue>(() => {
-    const to = new Date();
-    return { from: new Date(to.getTime() - 6 * DAY), to };
+  
+   // Standarddatum, sista datapost
+  const [range, setRange] = useState<DateRangeValue>({
+    from: new Date(2026, 8, 1),   
+    to: new Date(2026, 8, 26),
   });
 
   // Vattennivå: medel per dag
