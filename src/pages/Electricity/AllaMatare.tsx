@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import ElectricityPerRecievedWater from "@/components/SydvattenKPI/ElectricityPerRecievedWater";
+import ElectricityPerRecievedWater from "@/components/sydvatten/ElectricityPerRecievedWater";
 import ComponentCard from "@/components/TailAdminComponents/common/ComponentCard";
 import { usePowerData } from "@/hooks/usePowerData";
 import PageBreadcrumb from "@/components/TailAdminComponents/common/PageBreadCrumb";

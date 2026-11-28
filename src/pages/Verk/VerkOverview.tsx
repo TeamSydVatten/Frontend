@@ -1,4 +1,4 @@
-import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import DescriptionOfData from '@/components/sydvatten/DescriptionOfData'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 import PageMeta from '@/components/TailAdminComponents/common/PageMeta'

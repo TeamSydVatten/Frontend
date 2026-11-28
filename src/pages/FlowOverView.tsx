@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import DescriptionOfData from '@/components/sydvatten/DescriptionOfData'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 const FlowOverview = () => {
   return (

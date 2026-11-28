@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router";
 import {
   ChevronDownIcon,
   HorizontaLDots,
-  PageIcon
 } from "../icons";
 import { cn } from "../utils";
 import { navItems, type NavItem } from "./navItems";

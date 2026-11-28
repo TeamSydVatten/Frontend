@@ -1,9 +1,9 @@
 import React from 'react'
 
-import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
+import DescriptionOfData from '@/components/sydvatten/DescriptionOfData'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
-import FlowPeriodChart from '@/components/SydvattenKPI/FlowPeriodChart'
+import PopulationTrendChart from '@/components/sydvatten/PopulationTrendChart'
+import FlowPeriodChart from '@/components/sydvatten/FlowPeriodChart'
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 const Lund = () => {
   return (

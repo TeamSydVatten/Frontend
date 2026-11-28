@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { IoTrophy } from "react-icons/io5";
+import { IoNotifications, IoTrophy, IoWarning } from "react-icons/io5";
 import Button from "@/components/ui/button/Button";
 import {
   Table,
@@ -216,8 +216,10 @@ export default function MunicipalityWaterUsageTable({
             {title}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Liter per person och dygn, {year}
-            {year === CURRENT_YEAR && " (pågående år, hittills)"}
+            Liter per person och dygn, {year}  {year === CURRENT_YEAR && " (pågående år, hittills)"}<br/><br/>
+            <div className="flex flex-wrap items-center gap-2"><IoWarning/> Datan inkluderar industriförbrukning, dessutom har vissa kommuner (exempelvis Ängelholm) egen produktion av vatten.
+           </div>
+            
           </p>
         </div>
 

@@ -47,7 +47,7 @@ export const navItems: NavItem[] = [
     name: "Verk",
     key: "verk",
     subItems: [
-      { name: "verkoversikt", key: "verkjamforelsevy", path: "/verkoverview" },
+      { name: "production", key: "production", path: "/production" },
       { name: "Vombsjön", key: "vombverket", path: "/vombverket" },
       { name: "Ringsjön", key: "ringsjoverket", path: "/ringsjoverket" },
     ],

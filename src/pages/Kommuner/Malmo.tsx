@@ -1,8 +1,8 @@
 import PageBreadcrumb from '@/components/TailAdminComponents/common/PageBreadCrumb'
 import ComponentCard from '@/components/TailAdminComponents/common/ComponentCard'
-import DescriptionOfData from '@/components/SydvattenKPI/DescriptionOfData'
-import PopulationTrendChart from '@/components/SydvattenKPI/PopulationTrendChart'
-import FlowPeriodChart from '@/components/SydvattenKPI/FlowPeriodChart'
+import DescriptionOfData from '@/components/sydvatten/DescriptionOfData'
+import PopulationTrendChart from '@/components/sydvatten/PopulationTrendChart'
+import FlowPeriodChart from '@/components/sydvatten/FlowPeriodChart'
 
 const Malmo = () => {
   return (
