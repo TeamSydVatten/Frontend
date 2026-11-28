@@ -8,6 +8,8 @@ interface DailyPoint {
 
 interface ElectricityLineChartProps {
   data: DailyPoint[];
+  /** Linjens färg, t.ex. verkets färg. Annars elens gula färg. */
+  color?: string;
 }
 
 const electricityColors = {
@@ -18,6 +20,7 @@ const electricityColors = {
 
 export default function ElectricityLineChart({
   data,
+  color = electricityColors.line,
 }: ElectricityLineChartProps) {
   // Kontrollera att vi har minst två mätningar
   const validPoints = data.filter(
@@ -26,6 +29,7 @@ export default function ElectricityLineChart({
 
   // Långa perioder: tunnare linje, inga punkter/animation och månad + år på axeln
   const isLong = data.length > 60;
+  const isDefaultColor = color === electricityColors.line;
 
   // Diagrammets inställningar
   const options: ApexOptions = {
@@ -44,7 +48,7 @@ export default function ElectricityLineChart({
       },
     },
 
-    colors: [electricityColors.line],
+    colors: [color],
 
     stroke: {
       curve: "smooth",
@@ -53,8 +57,8 @@ export default function ElectricityLineChart({
 
     markers: {
       size: isLong ? 0 : 4,
-      colors: [electricityColors.marker],
-      strokeColors: electricityColors.markerBorder,
+      colors: [isDefaultColor ? electricityColors.marker : color],
+      strokeColors: isDefaultColor ? electricityColors.markerBorder : color,
       strokeWidth: 2,
       hover: {
         size: 7,

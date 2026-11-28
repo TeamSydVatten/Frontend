@@ -7,9 +7,12 @@ import LakeChart, {
   type LakeSeries,
 } from "@/components/sydvatten/LakeChart";
 import CompareBarChart from "@/components/sydvatten/CompareBarChart";
+import { LAKE_COLORS, PRECIPITATION_COLOR } from "@/utils/chart";
 
 const DAY = 24 * 3600 * 1000;
-const YEAR_COLORS = ["#2563EB", "#93C5FD", "#8B5CF6", "#10B981", "#F97316"];
+const LAKE_COLOR = LAKE_COLORS.vomb;
+// Valt år i sjöns färg, tidigare år i grått (gray-400, syns i både ljust och mörkt läge)
+const YEAR_COLORS = [LAKE_COLOR, "#98a2b3", "#98a2b3", "#98a2b3", "#98a2b3"];
 
 /* ---------- hjälpfunktioner (utanför komponenten) ---------- */
 
@@ -51,10 +54,10 @@ const buildSeries = (
   precip: ChartPoint[],
   from: Date,
   to: Date,
-  waterColor = "#2563EB"
+  waterColor = LAKE_COLOR
 ): LakeSeries[] => [
   { name: "Vattennivå", type: "area", color: waterColor, data: inRange(level, from, to) },
-  { name: "Nederbörd", type: "bar", color: "#93C5FD", axis: "right", data: inRange(precip, from, to) },
+  { name: "Nederbörd", type: "bar", color: PRECIPITATION_COLOR, axis: "right", data: inRange(precip, from, to) },
 ];
 
 /* ---------- komponenten ---------- */

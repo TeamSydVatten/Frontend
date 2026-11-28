@@ -4,6 +4,7 @@ import ElectricityConsum from "@/components/sydvatten/ElectricityConsum";
 import { electricityDataById } from "@/data/electricityData";
 import fetchAPI from "@/Services/APIClient";
 import ElectricityLineChart from "@/components/sydvatten/ElectricityLineChart";
+import { PLANT_COLORS } from "@/utils/chart";
 import {
   MdTrendingDown,
   MdTrendingUp,
@@ -463,7 +464,14 @@ export default function ElOverview() {
           </select>
         </div>
 
-        <ElectricityLineChart data={chartData} />
+        <ElectricityLineChart
+          data={chartData}
+          color={
+            selectedFacility === "all"
+              ? undefined
+              : PLANT_COLORS[getPowerLocation(selectedFacility, "")]
+          }
+        />
       </section>
 
       <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
