@@ -1,8 +1,7 @@
 import type { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
-import { BASE_OPTIONS } from "@/utils/chart";
+import { BASE_OPTIONS, PLANT_COLORS } from "@/utils/chart";
 import {
-  PLANT_COLORS,
   formatMonth,
   formatNumber,
   type MonthlyProduction,

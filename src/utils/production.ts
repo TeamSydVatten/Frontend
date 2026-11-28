@@ -6,12 +6,6 @@ import type {
 
 export const ALL_PLANTS = "Alla verk";
 
-export const PLANT_COLORS: Record<string, string> = {
-  Vombverket: "#465fff",
-  Ringsjöverket: "#f79009",
-  [ALL_PLANTS]: "#667085",
-};
-
 // Older years in grey, the latest year in blue.
 export const YEAR_COLORS = ["#e4e7ec", "#d0d5dd", "#98a2b3", "#667085", "#465fff"];
 
